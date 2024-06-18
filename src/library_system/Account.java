@@ -26,6 +26,10 @@ public class Account {
     public String toString() {
         return "username: " + username + " password: " + password + " a";
     }
+
+    public boolean getAdmin(){
+        return this.admin;
+    }
     
     
 }

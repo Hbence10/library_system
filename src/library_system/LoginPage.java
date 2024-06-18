@@ -3,8 +3,11 @@ package library_system;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import javax.swing.*;
 import java.sql.*;
+import javax.imageio.ImageIO;
+import javax.swing.border.Border;
 
 class LoginPage {
 
@@ -12,27 +15,47 @@ class LoginPage {
     JTextField usernameInput;
     JTextField passwordInput;
     JPanel loginBox;
-    
+    JLabel errorMsg;
+
     public LoginPage() {
         frame = new JFrame();
         frame.setSize(1280, 720);
-        frame.setBackground(Color.yellow);
         frame.setLayout(null);
         frame.setTitle("Library System - Login page");
+        frame.setResizable(false);
+
+        try {
+            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg2.jpg")))));
+        } catch (Exception e) {
+        }
 
         loginBox = new JPanel();
-        loginBox.setBounds(0, 0, 620, 325);
-        loginBox.setBackground(Color.red);
+        loginBox.setBounds(330, 197, 620, 326);
+        loginBox.setBackground(new Color(70, 170, 150));
+        loginBox.setLayout(null);
 
+        JLabel text1 = new JLabel("Username:");
+        text1.setBounds(177, 70, 276, 30);
         usernameInput = new JTextField();
-        usernameInput.setPreferredSize(new Dimension(275, 25));
+        usernameInput.setBounds(177, 95, 276, 30);
 
+        JLabel text2 = new JLabel("Password:");
+        text2.setBounds(177, 155, 276, 30);
         passwordInput = new JTextField();
-        passwordInput.setPreferredSize(new Dimension(275, 25));
+        passwordInput.setBounds(177, 180, 276, 30);
 
         JButton button = new JButton("Login");
+        button.setBounds(197, 275, 226, 25);
         button.addActionListener(login);
 
+        errorMsg = new JLabel();
+        errorMsg.setBounds(177, 25, 276, 30);
+        errorMsg.setHorizontalAlignment(JLabel.CENTER);
+
+        loginBox.add(errorMsg);
+
+        loginBox.add(text1);
+        loginBox.add(text2);
         loginBox.add(usernameInput);
         loginBox.add(passwordInput);
         loginBox.add(button);
@@ -68,15 +91,16 @@ class LoginPage {
             while (result.next()) {
                 checkLogin += 1;
                 if (!result.getString("userId").equals("")) {
-                      Account.logedAcc = new Account(result.getInt("userId"), username, password, result.getString("email"),  result.getBoolean("admin"));
+                    Account.logedAcc = new Account(result.getInt("userId"), username, password, result.getString("email"), result.getBoolean("admin"));
+                    frame.dispose();
+                    new MainPage();
                 }
             }
 
-            if(checkLogin == 0){
-                JLabel errorMsg = new JLabel("Bad username/password");
-                loginBox.add(errorMsg);
-                frame.setVisible(true);
+            if (checkLogin == 0) {    
+                errorMsg.setText("Bad username or password");
             }
+            
         } catch (Exception e) {
             System.out.println("hiba");
         }
