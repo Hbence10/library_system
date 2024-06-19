@@ -30,5 +30,25 @@ public class History {
         return bookId;
     }
     
-    
+  public boolean getOngoing(){
+      return ongoing;
+  }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
+    }
+
+    public static void setFullHistory(ArrayList<History> fullHistory) {
+        History.fullHistory = fullHistory;
+    }
+  
+  
 }

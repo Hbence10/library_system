@@ -92,6 +92,10 @@ public class Product {
     public void setAvailabDate(Date availabDate) {
         this.availabDate = availabDate;
     }
+
+    public static void setSelectedProduct(Product selectedProduct) {
+        Product.selectedProduct = selectedProduct;
+    }
     
     
 }
