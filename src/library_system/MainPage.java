@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -90,6 +91,7 @@ public class MainPage {
 
     public void getAllProduct() {
         System.out.println("Select all book");
+        
         String url = "jdbc:mysql://localhost:3306/library";
         String query = "SELECT * FROM book ;";
 

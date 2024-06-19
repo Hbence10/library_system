@@ -148,12 +148,13 @@ public class ProductPage {
 
             System.out.println(Account.logedAcc.getUsername() + "want to lend " + Product.getSelectedProduct().getTitle());
             ArrayList<String> querys = new ArrayList<String>(Arrays.asList(
-                    "INSERT INTO library.lendhistory (`userId`, `startDate`, `bookTitle`) VALUES (" + Account.logedAcc.getUserId() + ", \"" + LocalDate.now() + "\", \"" + Product.getSelectedProduct().getTitle() + "\"" + ");",
+                    "INSERT INTO library.lendhistory (`userId`, `startDate`, `bookTitle`) VALUES (" + Account.logedAcc.getUserId() + ", \"" + LocalDate.now() + "\"," + Product.getSelectedProduct().getBookId()+ ");",
                     "UPDATE library.book SET available = false , lendDate = \"" + LocalDate.now() + "\",availableDate =  \"" + endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() + "\" WHERE bookId = " + Product.selectedProduct.getBookId() + ";",
                     "INSERT INTO library.lendtracker (`bookId`, `userId`, `startDate`) VALUES (" + Product.getSelectedProduct().getBookId() + ", " + Account.logedAcc.getUserId() + ", \"" + LocalDate.now() + "\");"
             ));
 
             System.out.println("UPDATE library.book SET available = false , lendDate = \"" + LocalDate.now() + "\",availableDate =  \"" + endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() + "\" WHERE bookId = " + Product.selectedProduct.getBookId() + ";");
+            System.out.println("INSERT INTO library.lendhistory (`userId`, `startDate`, `bookTitle`) VALUES (" + Account.logedAcc.getUserId() + ", \"" + LocalDate.now() + "\", \"" + Product.getSelectedProduct().getTitle() + "\"" + ");");
             sendLend(querys);
 
             frame.dispose();
