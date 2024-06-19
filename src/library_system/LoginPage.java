@@ -4,6 +4,7 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.net.*;
 import javax.swing.*;
 import java.sql.*;
 import javax.imageio.ImageIO;
@@ -47,6 +48,12 @@ class LoginPage {
         passwordInput = new JTextField();
         passwordInput.setBounds(177, 180, 276, 30);
 
+        JButton text3 = new JButton("Sign up");
+        text3.setBounds(155, 210, 95, 30);
+        text3.setBackground(new Color(70, 170, 150));
+        text3.setBorder(null);
+        text3.addActionListener(sign);
+
         JButton button = new JButton("Login");
         button.setBounds(197, 275, 226, 25);
         button.addActionListener(login);
@@ -61,6 +68,7 @@ class LoginPage {
         loginBox.add(text2);
         loginBox.add(usernameInput);
         loginBox.add(passwordInput);
+        loginBox.add(text3);
         loginBox.add(button);
 
         frame.add(loginBox);
@@ -100,12 +108,24 @@ class LoginPage {
                 }
             }
 
-            if (checkLogin == 0) {    
+            if (checkLogin == 0) {
                 errorMsg.setText("Bad username or password");
             }
-            
+
         } catch (Exception e) {
             System.out.println("hiba");
         }
     }
+
+    
+    
+    ActionListener sign = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                Desktop.getDesktop().browse(new URL("http://localhost:4200/").toURI());
+            } catch (Exception d) {
+            }
+        }
+    };
 }
