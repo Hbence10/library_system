@@ -44,7 +44,45 @@ public class Product {
     public String getTitle() {
         return title;
     }
+
+    public static ArrayList<Product> getAllProduct() {
+        return allProduct;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public Date getAvailabDate() {
+        return availabDate;
+    }
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getISBN() {
+        return ISBN;
+    }
+
+    public Date getLendDate() {
+        return lendDate;
+    }
+
+    public Date getRelaeseDate() {
+        return relaeseDate;
+    }
+
+    public static Product getSelectedProduct() {
+        return selectedProduct;
+    }
     
-    
+    public boolean getAvailable(){
+        return available;
+    }
     
 }

@@ -23,6 +23,7 @@ class LoginPage {
         frame.setLayout(null);
         frame.setTitle("Library System - Login page");
         frame.setResizable(false);
+        frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
 
         try {
             frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg2.jpg")))));
@@ -36,11 +37,13 @@ class LoginPage {
 
         JLabel text1 = new JLabel("Username:");
         text1.setBounds(177, 70, 276, 30);
+        text1.setForeground(Color.WHITE);
         usernameInput = new JTextField();
         usernameInput.setBounds(177, 95, 276, 30);
 
         JLabel text2 = new JLabel("Password:");
         text2.setBounds(177, 155, 276, 30);
+        text2.setForeground(Color.WHITE);
         passwordInput = new JTextField();
         passwordInput.setBounds(177, 180, 276, 30);
 

@@ -23,11 +23,14 @@ public class MainPage {
         frame.setSize(1280, 720);
         frame.setTitle("Library System - Main page");
         frame.setResizable(false);
+        frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
         
         JMenuBar menuBar = new JMenuBar();
+        JMenu mainPage = new JMenu("Main Page");
         JMenu search = new JMenu("Search");
         JMenu history = new JMenu("My History");
 
+        menuBar.add(mainPage);
         menuBar.add(search);
         menuBar.add(history);
 
@@ -89,7 +92,7 @@ public class MainPage {
             ResultSet result = statement.executeQuery(query);
 
             while (result.next()) {
-                new Product(result.getInt(1), result.getString(2), result.getInt(3), result.getString(4), true, result.getDate(6), result.getString(7), result.getString(10));
+                new Product(result.getInt(1), result.getString(2), result.getInt(3), result.getString(4), result.getBoolean(5), result.getDate(6), result.getString(7), result.getString(10));
             }
 
          
