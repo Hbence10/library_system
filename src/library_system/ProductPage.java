@@ -5,8 +5,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 public class ProductPage {
 
@@ -15,6 +23,9 @@ public class ProductPage {
     JLabel coverImg;
     JPanel detailsPanel;
     JMenu mainPage;
+    JMenu search;
+    JMenu history;
+    JMenu addProduct;
 
     public ProductPage() {
         frame = new JFrame();
@@ -31,16 +42,21 @@ public class ProductPage {
 
         JMenuBar menuBar = new JMenuBar();
         mainPage = new JMenu("Main Page");
-        JMenu search = new JMenu("Search");
-        JMenu history = new JMenu("My History");
+        search = new JMenu("Search");
+        history = new JMenu("My History");
+
+        mainPage.addMenuListener(navigate);
+        search.addMenuListener(navigate);
+        history.addMenuListener(navigate);
 
         menuBar.add(mainPage);
         menuBar.add(search);
         menuBar.add(history);
 
         if (Account.logedAcc.getAdmin()) {
-            JMenu addProduct = new JMenu("Add Product");
+            addProduct = new JMenu("Add Product");
             menuBar.add(addProduct);
+            addProduct.addMenuListener(navigate);
         }
 
         coverImg = new JLabel();
@@ -87,17 +103,18 @@ public class ProductPage {
         }
 
         JLabel available = new JLabel("Status: " + (Product.getSelectedProduct().getAvailable() ? "Available" : "Taken"));
-        available.setBounds(20, 375, 100, 100);
+        available.setBounds(20, 375, 100, 25);
 
         JButton lendButton = new JButton("Lend");
-        lendButton.setBounds(200, 375, 100, 25);
+        lendButton.setBounds(490, 375, 100, 25);
+        lendButton.addActionListener(lend);
 
         JLabel availableDate = new JLabel("It will available at: " + Product.getSelectedProduct().getAvailabDate());
-        availableDate.setBounds(20, 395, 610, 100);
+        availableDate.setBounds(20, 395, 610, 20);
 
         if (Product.getSelectedProduct().getAvailable()) {
             available.setForeground(Color.green);
-            
+
         } else {
             available.setForeground(Color.red);
             lendButton.setEnabled(false);
@@ -118,11 +135,73 @@ public class ProductPage {
         frame.setVisible(true);
     }
 
-    ActionListener navigate = new ActionListener() {
+    ActionListener lend = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println(e.getSource());
+            System.out.println(LocalDate.now());
+
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DATE, 30);
+            Date endDate = c.getTime();
+
+            System.out.println(endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+
+            System.out.println(Account.logedAcc.getUsername() + "want to lend " + Product.getSelectedProduct().getTitle());
+            ArrayList<String> querys = new ArrayList<String>(Arrays.asList(
+                    "INSERT INTO library.lendhistory (`userId`, `startDate`, `bookTitle`) VALUES (" + Account.logedAcc.getUserId() + ", \"" + LocalDate.now() + "\", \"" + Product.getSelectedProduct().getTitle() + "\"" + ");",
+                    "UPDATE library.book SET available = false , lendDate = \"" + LocalDate.now() + "\",availableDate =  \"" + endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() + "\" WHERE bookId = " + Product.selectedProduct.getBookId() + ";",
+                    "INSERT INTO library.lendtracker (`bookId`, `userId`, `startDate`) VALUES (" + Product.getSelectedProduct().getBookId() + ", " + Account.logedAcc.getUserId() + ", \"" + LocalDate.now() + "\");"
+            ));
+
+            System.out.println("UPDATE library.book SET available = false , lendDate = \"" + LocalDate.now() + "\",availableDate =  \"" + endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() + "\" WHERE bookId = " + Product.selectedProduct.getBookId() + ";");
+            sendLend(querys);
+
+            frame.dispose();
+            new MainPage();
         }
     };
 
+    public void sendLend(ArrayList<String> querys) {
+        String url = "jdbc:mysql://localhost:3306/library";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (Exception e) {
+            System.out.println("Hiba");
+        }
+
+        try {
+            for (int i = 0; i < querys.size(); i++) {
+                System.out.println(querys.get(i));
+                Connection con = DriverManager.getConnection(url, "root", "ASDasd123");
+                Statement statement = con.createStatement();
+                statement.executeUpdate(querys.get(i));
+            }
+
+        } catch (Exception e) {
+            System.out.println("hiba");
+        }
+    }
+    
+    MenuListener navigate = new MenuListener() {
+        @Override
+        public void menuSelected(MenuEvent e) {
+            if(e.getSource() == history){
+                new HistoryPage();
+            } else if (e.getSource() == search){
+                new SearchPage();
+            } else if(e.getSource() == mainPage){
+                new MainPage();
+            } else if(e.getSource() == addProduct){
+                new AddProduct();
+            }
+            
+            frame.dispose();
+        }
+
+        @Override
+        public void menuDeselected(MenuEvent e) {}
+
+        @Override
+        public void menuCanceled(MenuEvent e) { }
+    };
 }

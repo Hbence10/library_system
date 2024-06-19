@@ -84,5 +84,14 @@ public class Product {
     public boolean getAvailable(){
         return available;
     }
+
+    public static void setAllProduct(ArrayList<Product> allProduct) {
+        Product.allProduct = allProduct;
+    }
+
+    public void setAvailabDate(Date availabDate) {
+        this.availabDate = availabDate;
+    }
+    
     
 }

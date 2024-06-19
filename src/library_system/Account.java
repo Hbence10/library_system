@@ -30,6 +30,14 @@ public class Account {
     public boolean getAdmin(){
         return this.admin;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
     
     
 }

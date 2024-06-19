@@ -9,6 +9,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 public class MainPage {
 
@@ -16,8 +18,13 @@ public class MainPage {
     JPanel row;
     JLabel testLabel;
     ArrayList<JButton> buttons = new ArrayList<JButton>();
+    JMenu mainPage;
+    JMenu search;
+    JMenu history;
+    JMenu addProduct;
 
     public MainPage() {
+        Product.setAllProduct(new ArrayList<Product>());
         getAllProduct();
         frame = new JFrame();
         frame.setSize(1280, 720);
@@ -26,17 +33,22 @@ public class MainPage {
         frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
         
         JMenuBar menuBar = new JMenuBar();
-        JMenu mainPage = new JMenu("Main Page");
-        JMenu search = new JMenu("Search");
-        JMenu history = new JMenu("My History");
+         mainPage = new JMenu("Main Page");
+         search = new JMenu("Search");
+         history = new JMenu("My History");
 
+         mainPage.addMenuListener(navigate);
+         search.addMenuListener(navigate);
+         history.addMenuListener(navigate);
+         
         menuBar.add(mainPage);
         menuBar.add(search);
         menuBar.add(history);
 
         if (Account.logedAcc.getAdmin()) {
-            JMenu addProduct = new JMenu("Add Product");
+             addProduct = new JMenu("Add Product");
             menuBar.add(addProduct);
+            addProduct.addMenuListener(navigate);
         }
 
         JPanel container = new JPanel();
@@ -77,6 +89,7 @@ public class MainPage {
     }
 
     public void getAllProduct() {
+        System.out.println("Select all book");
         String url = "jdbc:mysql://localhost:3306/library";
         String query = "SELECT * FROM book ;";
 
@@ -92,10 +105,11 @@ public class MainPage {
             ResultSet result = statement.executeQuery(query);
 
             while (result.next()) {
-                new Product(result.getInt(1), result.getString(2), result.getInt(3), result.getString(4), result.getBoolean(5), result.getDate(6), result.getString(7), result.getString(10));
+              Product newProduct =  new Product(result.getInt(1), result.getString(2), result.getInt(3), result.getString(4), result.getBoolean(5), result.getDate(6), result.getString(7), result.getString(10));
+                try {
+                    newProduct.setAvailabDate(result.getDate(8));
+                } catch (Exception e) {}
             }
-
-         
 
         } catch (Exception e) {
             System.out.println("hiba");
@@ -109,5 +123,28 @@ public class MainPage {
             frame.dispose();
             new ProductPage();
         }
+    };
+    
+    MenuListener navigate = new MenuListener() {
+        @Override
+        public void menuSelected(MenuEvent e) {
+            if(e.getSource() == history){
+                new HistoryPage();
+            } else if (e.getSource() == search){
+                new SearchPage();
+            } else if(e.getSource() == mainPage){
+                new MainPage();
+            } else if(e.getSource() == addProduct){
+                new AddProduct();
+            }
+            
+            frame.dispose();
+        }
+
+        @Override
+        public void menuDeselected(MenuEvent e) {}
+
+        @Override
+        public void menuCanceled(MenuEvent e) { }
     };
 }
