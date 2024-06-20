@@ -16,6 +16,7 @@ public class Product {
     private String author;
     
     public static ArrayList<Product> allProduct = new ArrayList<Product>();
+    public static ArrayList<Product> searchedProduct = new ArrayList<Product>();
 
     public static Product selectedProduct;
     

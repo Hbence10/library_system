@@ -2,7 +2,23 @@ package library_system;
 
 import java.util.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
@@ -16,6 +32,12 @@ public class AddProduct {
     JMenu history;
     JMenu addProduct;
     JPanel formPanel;
+    JTextField title;
+    JTextField author;
+    JTextField ISBN;
+    JTextField rDate;
+    JButton coverImg;
+    JTextArea description;
 
     public AddProduct() {
         frame = new JFrame();
@@ -24,6 +46,7 @@ public class AddProduct {
         frame.setTitle("Library System - Add Product");
         frame.setResizable(false);
         frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
+        frame.setForeground(Color.red);
 
         JMenuBar menuBar = new JMenuBar();
         mainPage = new JMenu("Main Page");
@@ -44,27 +67,102 @@ public class AddProduct {
             addProduct.addMenuListener(navigate);
         }
 
-        
         try {
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg2.jpg")))));
+            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg8.jpg")))));
         } catch (Exception e) {
         }
-        
+
         formPanel = new JPanel();
-        formPanel.setBounds(50, 0, 780, 720);
+        formPanel.setBounds(210, 0, 860, 720);
         formPanel.setLayout(null);
-        JTextField title = new JTextField();
-        
-        JButton addButton = new JButton("Add Product!");
-        addButton.setBounds(330,575,120,25);
-        
-        for(int i = 0; i<4; i++){
-            JTextArea input = new JTextArea();
-            input.setBounds(20, 20 + (i*45), 120, 20);
-            formPanel.add(input);
-        }
-        
+//        formPanel.setOpaque(false);
+        formPanel.setBackground(new Color(0, 0, 0, 95));
+
+        JLabel mainTitle = new JLabel("Add Product");
+        mainTitle.setFont(new Font("Serif", Font.PLAIN, 48));
+        mainTitle.setBounds(0, 0, 860, 62);
+        mainTitle.setHorizontalAlignment(JLabel.CENTER);
+        mainTitle.setForeground(Color.white);
+
+        JLabel titleText = new JLabel("Title:");
+        titleText.setBounds(20, 90, 172, 40);
+        titleText.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 34));
+        titleText.setForeground(Color.white);
+
+        JLabel authorText = new JLabel("Author:");
+        authorText.setBounds(20, 155, 172, 40);
+        authorText.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 34));
+        authorText.setForeground(Color.white);
+
+        JLabel ISBNText = new JLabel("ISBN:");
+        ISBNText.setBounds(440, 90, 172, 40);
+        ISBNText.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 34));
+        ISBNText.setForeground(Color.white);
+
+        JLabel rDateText = new JLabel("Relase Date:");
+        rDateText.setBounds(440, 155, 200, 40);
+        rDateText.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 34));
+        rDateText.setForeground(Color.white);
+
+        JLabel coverImgText = new JLabel("Cover Img:");
+        coverImgText.setBounds(440, 220, 200, 40);
+        coverImgText.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 34));
+        coverImgText.setForeground(Color.white);
+
+        JLabel descriptionText = new JLabel("Description:");
+        descriptionText.setBounds(20, 290, 200, 40);
+        descriptionText.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 34));
+        descriptionText.setForeground(Color.white);
+
+        title = new JTextField();
+        title.setBounds(180, 95, 195, 25);
+
+        author = new JTextField();
+        author.setBounds(180, 160, 195, 25);
+
+        JButton addButton = new JButton("Add to database");
+        addButton.setBounds(410, 575, 175, 30);
+        addButton.setFocusable(false);
+        addButton.setBackground(new Color(255, 213, 5));
+        addButton.setBorder(null);
+        addButton.addActionListener(addProductToDatabase);
+
+        JButton previewButton = new JButton("Preview the Page");
+        previewButton.setBounds(600, 575, 175, 30);
+        previewButton.setFocusable(false);
+        previewButton.setBackground(new Color(255, 213, 5));
+        previewButton.setBorder(null);
+
+        rDate = new JTextField();
+        rDate.setBounds(650, 160, 195, 25);
+
+        ISBN = new JTextField();
+        ISBN.setBounds(650, 95, 195, 25);
+
+        coverImg = new JButton("Select");
+        coverImg.setBounds(650, 225, 195, 30);
+        coverImg.setFocusable(false);
+        coverImg.setBackground(Color.white);
+        coverImg.addActionListener(fileSelect);
+
+        description = new JTextArea();
+        description.setBounds(150, 350, 575, 125);
+
+        formPanel.add(mainTitle);
+        formPanel.add(titleText);
+        formPanel.add(authorText);
+        formPanel.add(ISBNText);
+        formPanel.add(rDateText);
+        formPanel.add(coverImgText);
+        formPanel.add(descriptionText);
+        formPanel.add(title);
+        formPanel.add(author);
+        formPanel.add(ISBN);
+        formPanel.add(rDate);
+        formPanel.add(coverImg);
+        formPanel.add(description);
         formPanel.add(addButton);
+        formPanel.add(previewButton);
         frame.add(formPanel);
         frame.setJMenuBar(menuBar);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,4 +193,61 @@ public class AddProduct {
         public void menuCanceled(MenuEvent e) {
         }
     };
+
+    ActionListener fileSelect = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JFileChooser chooser = new JFileChooser();
+
+            int response = chooser.showOpenDialog(null); //select file to open
+
+            if (response == JFileChooser.APPROVE_OPTION) {
+                File file = new File(chooser.getSelectedFile().getAbsolutePath());
+                System.out.println(file);
+                String placeToSaveFile = "\\C:\\Users\\bzhal\\OneDrive\\Asztali gép\\asd2\\";
+                try {
+                    Files.copy(file.toPath(), new File(placeToSaveFile).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ex) {
+//                    Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("Problem");
+                }
+            }
+        }
+    };
+
+    ActionListener addProductToDatabase = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println(title.getText());
+            System.out.println(ISBN.getText());
+            System.out.println(description.getText());
+            System.out.println(rDate.getText());
+            System.out.println(author.getText());
+            ArrayList<String> details = new ArrayList<>(Arrays.asList(title.getText(), ISBN.getText(), description.getText(), rDate.getText(), author.getText()));
+
+            uploadToDatabase(details);
+        }
+    };
+
+    public void uploadToDatabase(ArrayList<String> details) {
+        String url = "jdbc:mysql://localhost:3306/library";
+        String query = "INSERT INTO library.book (`title`, `ISBN_Number`, `description`, `relaese_Date`,`coverImg`, `author`) VALUES (\" " + details.get(0) + "\"," + details.get(1) + ", \" " + details.get(2) + "\", \"" +                     " );";
+        
+        System.out.println(query);
+//        try {
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//        } catch (Exception e) {
+//            System.out.println("Hiba");
+//        }
+//
+//        try {
+//
+//            Connection con = DriverManager.getConnection(url, "root", "ASDasd123");
+//            Statement statement = con.createStatement();
+//            statement.executeUpdate(query);
+//
+//        } catch (Exception e) {
+//            System.out.println("hiba");
+//        }
+    }
 }

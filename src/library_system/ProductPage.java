@@ -36,7 +36,7 @@ public class ProductPage {
         frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
 
         try {
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg2.jpg")))));
+            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg8.jpg")))));
         } catch (Exception e) {
         }
 
@@ -70,7 +70,7 @@ public class ProductPage {
 
         detailsPanel = new JPanel();
         detailsPanel.setBounds(590, 20, 610, 600);
-//        detailsPanel.setBackground(Color.red);
+//       detailsPanel.setBackground(new Color(0, 0, 0, 95));
 //    detailsPanel.setOpaque(false);
         detailsPanel.setLayout(null);
 

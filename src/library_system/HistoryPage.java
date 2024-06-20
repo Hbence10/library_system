@@ -38,7 +38,7 @@ public class HistoryPage {
         frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
 
         try {
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg2.jpg")))));
+            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg8.jpg")))));
         } catch (Exception e) {
         }
 
@@ -70,34 +70,35 @@ public class HistoryPage {
         username.setFont(new Font("Mv Boli", Font.PLAIN, 45));
         username.setBounds(0, 0, 980, 60);
         username.setHorizontalAlignment(JLabel.CENTER);
-        
+
         detailsPanel.add(username);
 
         for (int i = 0; i < History.fullHistory.size(); i++) {
-             JButton endButton = new JButton("Send");
+            JButton endButton = new JButton("Send");
             endButton.setBounds(495, 110 + (i * 30), 75, 20);
             endButton.addActionListener(sendProduct);
             sendButtons.add(endButton);
-            
+
             JLabel title = new JLabel(Product.getAllProduct().get(History.fullHistory.get(i).getBookId() - 1).getTitle());
             title.setBounds(20, 95 + (i * 30), 120, 50);
-           
-            JLabel status = new JLabel(History.fullHistory.get(i).getOngoing() ? "Active" : "Ended");
-            status.setBounds(155, 95 + (i * 30), 100, 50);
-           
+
             JLabel startDate = new JLabel(History.fullHistory.get(i).getStartDate().toString());
             startDate.setBounds(265, 95 + (i * 30), 100, 50);
-          
+
             JLabel endDate = new JLabel();
             try {
                 endDate.setText(History.fullHistory.get(i).getEndDate().toString());
                 endButton.setEnabled(false);
+                History.fullHistory.get(i).setOngoing(false);
             } catch (Exception e) {
                 endDate.setText("-");
+                History.fullHistory.get(i).setOngoing(true);
             }
-            endDate.setBounds(375, 95 + (i * 30), 100, 50);
 
-           
+            JLabel status = new JLabel(History.fullHistory.get(i).getOngoing() ? "Active" : "Ended");
+            status.setBounds(155, 95 + (i * 30), 100, 50);
+
+            endDate.setBounds(375, 95 + (i * 30), 100, 50);
 
             JButton checkButton = new JButton("Check");
             checkButton.setBounds(580, 110 + (i * 30), 75, 20);
@@ -162,8 +163,9 @@ public class HistoryPage {
                 History newHistory = new History(result.getInt(5), result.getDate(3));
                 try {
                     newHistory.setEndDate(result.getDate(4));
-                    newHistory.setOngoing(true);
+                    newHistory.setOngoing(false);
                 } catch (Exception e) {
+                    newHistory.setOngoing(true);
                 }
             }
 
@@ -195,17 +197,16 @@ public class HistoryPage {
             Date endDate = c.getTime();
             LocalDate locald = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-          
             Product selected = Product.getAllProduct().get(History.fullHistory.get(index).getBookId() - 1);
             ArrayList<String> querys = new ArrayList<String>(Arrays.asList(
                     "UPDATE library.book SET available = true, availableDate = NULL, lendDate = NULL WHERE bookId = " + selected.getBookId() + " ;",
                     "UPDATE library.lendhistory SET endDate = " + "\"" + LocalDate.now() + "\" WHERE bookTitle = " + selected.getBookId() + ";",
                     "UPDATE library.lendtracker SET finish = true, endDate = \"" + locald + "\" WHERE bookId= " + selected.getBookId() + ";"
             ));
-            for(String i : querys){
+            for (String i : querys) {
                 System.out.println(i);
             }
-            
+
             sendUpdate(querys);
             frame.dispose();
             new HistoryPage();

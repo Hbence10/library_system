@@ -14,7 +14,7 @@ class LoginPage {
 
     JFrame frame;
     JTextField usernameInput;
-    JTextField passwordInput;
+    JPasswordField passwordInput;
     JPanel loginBox;
     JLabel errorMsg;
 
@@ -45,7 +45,7 @@ class LoginPage {
         JLabel text2 = new JLabel("Password:");
         text2.setBounds(177, 155, 276, 30);
         text2.setForeground(Color.WHITE);
-        passwordInput = new JTextField();
+        passwordInput = new JPasswordField();
         passwordInput.setBounds(177, 180, 276, 30);
 
         JButton text3 = new JButton("Sign up");
