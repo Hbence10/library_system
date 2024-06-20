@@ -33,6 +33,8 @@ public class MainPage {
         frame.setResizable(false);
         frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
         
+        
+        
         JMenuBar menuBar = new JMenuBar();
          mainPage = new JMenu("Main Page");
          search = new JMenu("Search");
@@ -51,20 +53,28 @@ public class MainPage {
             menuBar.add(addProduct);
             addProduct.addMenuListener(navigate);
         }
+        
 
         JPanel container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-
+        container.setBackground(new Color(0,0,0,96));
+        
         for (int j = 0; j < 5; j++) {
             row = new JPanel();
             row.setLayout(new FlowLayout());
+//            row.setBackground(new Color(0,0,0,96));
             JPanel buttonRow = new JPanel();
-            buttonRow.setLayout(new FlowLayout());
+            buttonRow.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 10));
+//            buttonRow.setBackground(new Color(0,0,0,96));
             
             for (int i = 0; i < 4; i++) {
                 Image img1 = new ImageIcon("src\\coverImgs\\" + Product.allProduct.get((j * 4) + i).getCoverImg()).getImage();
                 Image test = img1.getScaledInstance(220, 320, Image.SCALE_DEFAULT);
                 JButton testButton = new JButton("Check");
+                testButton.setFocusable(false);
+                testButton.setPreferredSize(new Dimension(175,25));
+                testButton.setBackground(Color.WHITE);
+                testButton.setBorder(BorderFactory.createEtchedBorder());
                 buttons.add(testButton);
                 testButton.addActionListener(selectProduct);
 
@@ -83,6 +93,8 @@ public class MainPage {
             container.add(buttonRow);
         }
         JScrollPane pane = new JScrollPane(container);
+        pane.getVerticalScrollBar().setUnitIncrement(25);
+        
         frame.add(pane);
         frame.setJMenuBar(menuBar);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

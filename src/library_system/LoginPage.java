@@ -27,13 +27,13 @@ class LoginPage {
         frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
 
         try {
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg2.jpg")))));
+            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg8.jpg")))));
         } catch (Exception e) {
         }
 
         loginBox = new JPanel();
         loginBox.setBounds(330, 197, 620, 326);
-        loginBox.setBackground(new Color(70, 170, 150));
+        loginBox.setBackground(new Color(0, 0, 0,99));
         loginBox.setLayout(null);
 
         JLabel text1 = new JLabel("Username:");
@@ -49,18 +49,24 @@ class LoginPage {
         passwordInput.setBounds(177, 180, 276, 30);
 
         JButton text3 = new JButton("Sign up");
-        text3.setBounds(155, 210, 95, 30);
-        text3.setBackground(new Color(70, 170, 150));
+        text3.setBounds(155, 220, 95, 20);
+        text3.setBackground(Color.WHITE);
         text3.setBorder(null);
         text3.addActionListener(sign);
+        text3.setFocusable(false);
 
         JButton button = new JButton("Login");
         button.setBounds(197, 275, 226, 25);
         button.addActionListener(login);
-
+        button.setFocusable(false);
+        button.setBackground(Color.WHITE);
+        
         errorMsg = new JLabel();
         errorMsg.setBounds(177, 25, 276, 30);
         errorMsg.setHorizontalAlignment(JLabel.CENTER);
+//        errorMsg.setBackground(new Color(0,0,0));
+        errorMsg.setOpaque(false);
+        errorMsg.setForeground(Color.white);
 
         loginBox.add(errorMsg);
 
@@ -110,6 +116,8 @@ class LoginPage {
 
             if (checkLogin == 0) {
                 errorMsg.setText("Bad username or password");
+                 loginBox.setBackground(new Color(0, 0, 0,99));
+                 loginBox.repaint();
             }
 
         } catch (Exception e) {

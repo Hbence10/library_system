@@ -124,14 +124,14 @@ public class AddProduct {
         addButton.setBounds(410, 575, 175, 30);
         addButton.setFocusable(false);
         addButton.setBackground(new Color(255, 213, 5));
-        addButton.setBorder(null);
+        addButton.setBorder(BorderFactory.createEtchedBorder());
         addButton.addActionListener(addProductToDatabase);
 
         JButton previewButton = new JButton("Preview the Page");
         previewButton.setBounds(600, 575, 175, 30);
         previewButton.setFocusable(false);
         previewButton.setBackground(new Color(255, 213, 5));
-        previewButton.setBorder(null);
+        previewButton.setBorder(BorderFactory.createEtchedBorder());
 
         rDate = new JTextField();
         rDate.setBounds(650, 160, 195, 25);
