@@ -25,6 +25,7 @@ class LoginPage {
         frame.setTitle("Library System - Login page");
         frame.setResizable(false);
         frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
+       
 
         try {
             frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg8.jpg")))));

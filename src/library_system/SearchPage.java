@@ -26,7 +26,7 @@ public class SearchPage {
         frame.setSize(1280, 720);
         frame.setLayout(null);
         frame.setTitle("Library System - Search page");
-//        frame.setResizable(false);
+        frame.setResizable(false);
         frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
 
         row = new JPanel();

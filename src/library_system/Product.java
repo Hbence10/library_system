@@ -14,13 +14,14 @@ public class Product {
     private Date availabDate = new Date();
     private Date lendDate = new Date();
     private String author;
+    private int lendBy;
     
     public static ArrayList<Product> allProduct = new ArrayList<Product>();
     public static ArrayList<Product> searchedProduct = new ArrayList<Product>();
 
     public static Product selectedProduct;
     
-    public Product(int bookId, String title, int ISBN, String description, boolean available, Date relaeseDate, String coverImg, String author) {
+    public Product(int bookId, String title, int ISBN, String description, boolean available, Date relaeseDate, String coverImg, String author, int lendBy) {
         this.bookId = bookId;
         this.title = title;
         this.ISBN = ISBN;
@@ -29,6 +30,7 @@ public class Product {
         this.relaeseDate = relaeseDate;
         this.coverImg = coverImg;
         this.author = author;
+        this.lendBy = lendBy;
         
         allProduct.add(this);
     }
@@ -46,6 +48,12 @@ public class Product {
         return title;
     }
 
+    public int getLendBy() {
+        return lendBy;
+    }
+
+    
+    
     public static ArrayList<Product> getAllProduct() {
         return allProduct;
     }

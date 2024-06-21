@@ -64,26 +64,32 @@ public class HistoryPage {
         detailsPanel = new JPanel();
         detailsPanel.setBounds(150, 75, 980, 570);
         detailsPanel.setLayout(null);
-//        detailsPanel.setOpaque(false);
+        detailsPanel.setBackground(new Color(0,0,0,96));
 
         JLabel username = new JLabel(Account.logedAcc.getUsername().replace("\"", "") + "'s history");
         username.setFont(new Font("Mv Boli", Font.PLAIN, 45));
         username.setBounds(0, 0, 980, 60);
         username.setHorizontalAlignment(JLabel.CENTER);
+        username.setForeground(Color.white);
 
         detailsPanel.add(username);
 
         for (int i = 0; i < History.fullHistory.size(); i++) {
             JButton endButton = new JButton("Send");
-            endButton.setBounds(495, 110 + (i * 30), 75, 20);
+            endButton.setBounds(495, 110 + (i * 30), 150, 20);
+            endButton.setFocusable(false);
+            endButton.setBorder(BorderFactory.createEtchedBorder());
             endButton.addActionListener(sendProduct);
+            endButton.setBackground(Color.white);
             sendButtons.add(endButton);
 
             JLabel title = new JLabel(Product.getAllProduct().get(History.fullHistory.get(i).getBookId() - 1).getTitle());
             title.setBounds(20, 95 + (i * 30), 120, 50);
+            title.setForeground(Color.white);
 
             JLabel startDate = new JLabel(History.fullHistory.get(i).getStartDate().toString());
             startDate.setBounds(265, 95 + (i * 30), 100, 50);
+            startDate.setForeground(Color.white);
 
             JLabel endDate = new JLabel();
             try {
@@ -94,16 +100,23 @@ public class HistoryPage {
                 endDate.setText("-");
                 History.fullHistory.get(i).setOngoing(true);
             }
+            endDate.setForeground(Color.white);
 
             JLabel status = new JLabel(History.fullHistory.get(i).getOngoing() ? "Active" : "Ended");
+            status.setForeground(History.fullHistory.get(i).getOngoing()? Color.red : Color.green);
             status.setBounds(155, 95 + (i * 30), 100, 50);
+            
 
             endDate.setBounds(375, 95 + (i * 30), 100, 50);
+            endDate.setForeground(Color.white);
 
             JButton checkButton = new JButton("Check");
-            checkButton.setBounds(580, 110 + (i * 30), 75, 20);
-            checkButtons.add(checkButton);
+            checkButton.setBounds(660, 110 + (i * 30), 150, 20);
+            checkButton.setFocusable(false);
+            checkButton.setBackground(Color.white);
+            checkButton.setBorder(BorderFactory.createEtchedBorder());
             checkButton.addActionListener(checkProduct);
+            checkButtons.add(checkButton);
 
             detailsPanel.add(title);
             detailsPanel.add(status);
@@ -160,9 +173,9 @@ public class HistoryPage {
             ResultSet result = statement.executeQuery(query);
 
             while (result.next()) {
-                History newHistory = new History(result.getInt(5), result.getDate(3));
+                History newHistory = new History(result.getInt(6), result.getDate(4), result.getInt(3));
                 try {
-                    newHistory.setEndDate(result.getDate(4));
+                    newHistory.setEndDate(result.getDate(5));
                     newHistory.setOngoing(false);
                 } catch (Exception e) {
                     newHistory.setOngoing(true);
@@ -170,7 +183,7 @@ public class HistoryPage {
             }
 
         } catch (Exception e) {
-            System.out.println("hiba");
+            System.out.println("hiba 1");
         }
     }
 
@@ -199,9 +212,9 @@ public class HistoryPage {
 
             Product selected = Product.getAllProduct().get(History.fullHistory.get(index).getBookId() - 1);
             ArrayList<String> querys = new ArrayList<String>(Arrays.asList(
-                    "UPDATE library.book SET available = true, availableDate = NULL, lendDate = NULL WHERE bookId = " + selected.getBookId() + " ;",
+                    "UPDATE library.book SET lendBy=0, available = true, availableDate = NULL, lendDate = NULL WHERE bookId = " + Product.selectedProduct.getBookId() + " ;",
                     "UPDATE library.lendhistory SET endDate = " + "\"" + LocalDate.now() + "\" WHERE bookTitle = " + selected.getBookId() + ";",
-                    "UPDATE library.lendtracker SET finish = true, endDate = \"" + locald + "\" WHERE bookId= " + selected.getBookId() + ";"
+                    "UPDATE library.lendtracker SET finish = true, endDate = \"" + LocalDate.now()+ "\" WHERE bookId= " + selected.getBookId() + ";"
             ));
             for (String i : querys) {
                 System.out.println(i);

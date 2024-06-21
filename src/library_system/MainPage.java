@@ -119,7 +119,7 @@ public class MainPage {
             ResultSet result = statement.executeQuery(query);
 
             while (result.next()) {
-              Product newProduct =  new Product(result.getInt(1), result.getString(2), result.getInt(3), result.getString(4), result.getBoolean(5), result.getDate(6), result.getString(7), result.getString(10));
+              Product newProduct =  new Product(result.getInt(1), result.getString(2), result.getInt(3), result.getString(4), result.getBoolean(5), result.getDate(6), result.getString(7), result.getString(10), result.getInt(11));
                 try {
                     newProduct.setAvailabDate(result.getDate(8));
                 } catch (Exception e) {}
