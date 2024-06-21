@@ -208,8 +208,8 @@ public class AddProduct {
                 try {
                     File selectedFile = chooser.getSelectedFile();
                     Path form= Paths.get(selectedFile.toURI());
-                    Path to = Paths.get("\\C:\\Users\\bzhal\\OneDrive\\Asztali gép\\library_system\\src\\coverImgs\\" + selectedFile.getName());
-                    System.out.println(selectedFile);
+                    Path to = Paths.get("src\\coverImgs\\" + selectedFile.getName());
+                   
                     Files.copy(form, to);
                 } catch (IOException ex) {
                     Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
