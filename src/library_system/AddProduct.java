@@ -41,6 +41,7 @@ public class AddProduct {
     JTextField rDate;
     JButton coverImg;
     JTextArea description;
+    File selectedFile;
 
     public AddProduct() {
         frame = new JFrame();
@@ -206,7 +207,7 @@ public class AddProduct {
 
             if (response == JFileChooser.APPROVE_OPTION) {
                 try {
-                    File selectedFile = chooser.getSelectedFile();
+                    selectedFile = chooser.getSelectedFile();
                     Path form= Paths.get(selectedFile.toURI());
                     Path to = Paths.get("src\\coverImgs\\" + selectedFile.getName());
                    
@@ -230,28 +231,32 @@ public class AddProduct {
             ArrayList<String> details = new ArrayList<>(Arrays.asList(title.getText(), ISBN.getText(), description.getText(), rDate.getText(), author.getText()));
 
             uploadToDatabase(details);
+            frame.dispose();
+            new MainPage();
         }
     };
 
     public void uploadToDatabase(ArrayList<String> details) {
         String url = "jdbc:mysql://localhost:3306/library";
-        String query = "INSERT INTO library.book (`title`, `ISBN_Number`, `description`, `relaese_Date`,`coverImg`, `author`) VALUES (\" " + details.get(0) + "\"," + details.get(1) + ", \" " + details.get(2) + "\", \"" + " );";
+        String query = "INSERT INTO `library`.`book`(`bookId`,`title`,`ISBN_Number`,`description`,`available`,`relaese_Date`,`coverImg`,`author`)VALUES (" + 
+                (Product.getAllProduct().size() +1) + ",\""  + details.get(0) + "\"," + details.get(1) + ", \" " + details.get(2) + "\", 1, \"" + details.get(3) + "\",\""+selectedFile.getName() +"\",\"" + details.get(4)+ "\" );";
+        
 
         System.out.println(query);
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//        } catch (Exception e) {
-//            System.out.println("Hiba");
-//        }
-//
-//        try {
-//
-//            Connection con = DriverManager.getConnection(url, "root", "ASDasd123");
-//            Statement statement = con.createStatement();
-//            statement.executeUpdate(query);
-//
-//        } catch (Exception e) {
-//            System.out.println("hiba");
-//        }
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (Exception e) {
+            System.out.println("Hiba");
+        }
+
+        try {
+
+            Connection con = DriverManager.getConnection(url, "root", "ASDasd123");
+            Statement statement = con.createStatement();
+            statement.executeUpdate(query);
+
+        } catch (Exception e) {
+            System.out.println("hiba");
+        }
     }
 }
