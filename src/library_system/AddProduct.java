@@ -11,8 +11,11 @@ import java.awt.event.InputMethodListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -202,15 +205,16 @@ public class AddProduct {
             int response = chooser.showOpenDialog(null); //select file to open
 
             if (response == JFileChooser.APPROVE_OPTION) {
-                File file = new File(chooser.getSelectedFile().getAbsolutePath());
-                System.out.println(file);
-                String placeToSaveFile = "\\C:\\Users\\bzhal\\OneDrive\\Asztali gép\\asd2\\";
                 try {
-                    Files.copy(file.toPath(), new File(placeToSaveFile).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    File selectedFile = chooser.getSelectedFile();
+                    Path form= Paths.get(selectedFile.toURI());
+                    Path to = Paths.get("\\C:\\Users\\bzhal\\OneDrive\\Asztali gép\\library_system\\src\\coverImgs\\" + selectedFile.getName());
+                    System.out.println(selectedFile);
+                    Files.copy(form, to);
                 } catch (IOException ex) {
-//                    Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
-                    System.out.println("Problem");
+                    Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
                 }
+              
             }
         }
     };
@@ -231,8 +235,8 @@ public class AddProduct {
 
     public void uploadToDatabase(ArrayList<String> details) {
         String url = "jdbc:mysql://localhost:3306/library";
-        String query = "INSERT INTO library.book (`title`, `ISBN_Number`, `description`, `relaese_Date`,`coverImg`, `author`) VALUES (\" " + details.get(0) + "\"," + details.get(1) + ", \" " + details.get(2) + "\", \"" +                     " );";
-        
+        String query = "INSERT INTO library.book (`title`, `ISBN_Number`, `description`, `relaese_Date`,`coverImg`, `author`) VALUES (\" " + details.get(0) + "\"," + details.get(1) + ", \" " + details.get(2) + "\", \"" + " );";
+
         System.out.println(query);
 //        try {
 //            Class.forName("com.mysql.cj.jdbc.Driver");
