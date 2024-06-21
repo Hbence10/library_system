@@ -1,1 +1,38 @@
-<p>sign-page works!</p>
+<div class="container-fluid" >
+    <div class="row">
+        <div class="col-lg-12 w-100 d-flex justify-content-center flex-row" id="test">
+            <form [formGroup]="form" (ngSubmit)="sign()" style="width: 650px;">
+                <div class="mb-4">
+                    <span class="form-text">Username</span>
+                    <input formControlName="username" type="text" class="form-control" placeholder="Username">
+                </div>
+             
+                <div class="mb-4">
+                    <span class="form-text">Email</span>
+                    <input formControlName="email" type="email" class="form-control" placeholder="Email">
+                </div>
+
+                <div class="mb-4">
+                    <span class="form-text">Password</span>
+                    <input #password formControlName="password" (click)="showRequirements()"  type="password" class="form-control" placeholder="Password">
+                </div>
+
+                <ul *ngIf="showRe" style="list-style: none;">
+                    <li class="my-2" [class.good-msg]="form.get('password')?.errors?.['minlength'] == undefined && password.value.length" [class.error-msg]="form.get('password')?.errors?.['minlength']">Must contain at least 6 characters</li>
+                    <li class="my-2" [class.good-msg]="form.get('password')?.errors?.['upperCase'] == undefined && password.value.length" [class.error-msg]="form.get('password')?.errors?.['upperCase']">Must contain a capital letter</li>
+                    <li class="my-2" [class.good-msg]="form.get('password')?.errors?.['lowerCase'] == undefined && password.value.length" [class.error-msg]="form.get('password')?.errors?.['lowerCase']">Must contain lower case</li>
+                    <li class="my-2" [class.good-msg]="form.get('password')?.errors?.['numeric'] == undefined && password.value.length" [class.error-msg]="form.get('password')?.errors?.['numeric']">Must contain a semicolon</li>
+                    <li class="my-2" [class.good-msg]="form.get('password')?.errors?.['specialCharacter'] == undefined && password.value.length" [class.error-msg]="form.get('password')?.errors?.['specialCharacter']">Must contain a special character</li>
+                </ul>
+
+                <div class="mb-5">
+                    <span for="" class="form-text">Re-Password</span>
+                    <input formControlName="rePassword" type="password" class="form-control" placeholder="Re-Password">
+                </div>
+
+                <button [disabled]="form.invalid" class="btn btn-outline-dark w-100">Sign</button>
+            </form>
+       
+        </div>
+    </div>
+</div>

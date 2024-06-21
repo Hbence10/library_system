@@ -1,0 +1,18 @@
+
+label{
+    font-size: 26px;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+.error-msg{
+    color: red;
+    font-size: 16px;
+}
+
+.good-msg{
+    color: green;
+}
