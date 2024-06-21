@@ -11,6 +11,7 @@ public class Account {
     private boolean admin;
     
     static Account logedAcc;
+    
 
     public Account(int userId, String username, String password, String email,boolean admin) {
         this.userId = userId;
@@ -37,6 +38,10 @@ public class Account {
 
     public int getUserId() {
         return userId;
+    }
+
+    public static void setLogedAcc(Account logedAcc) {
+        Account.logedAcc = logedAcc;
     }
     
     

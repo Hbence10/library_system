@@ -65,7 +65,6 @@ class LoginPage {
         errorMsg = new JLabel();
         errorMsg.setBounds(177, 25, 276, 30);
         errorMsg.setHorizontalAlignment(JLabel.CENTER);
-//        errorMsg.setBackground(new Color(0,0,0));
         errorMsg.setOpaque(false);
         errorMsg.setForeground(Color.white);
 

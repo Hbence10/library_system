@@ -23,6 +23,7 @@ public class MainPage {
     JMenu search;
     JMenu history;
     JMenu addProduct;
+    JMenu quit;
 
     public MainPage() {
         Product.setAllProduct(new ArrayList<Product>());
@@ -37,20 +38,24 @@ public class MainPage {
         mainPage = new JMenu("Main Page");
         search = new JMenu("Search");
         history = new JMenu("My History");
-
+        quit = new JMenu("Log out");
+        
         mainPage.addMenuListener(navigate);
         search.addMenuListener(navigate);
         history.addMenuListener(navigate);
-
+        quit.addMenuListener(navigate);
+        
         menuBar.add(mainPage);
         menuBar.add(search);
         menuBar.add(history);
+      
 
         if (Account.logedAcc.getAdmin()) {
             addProduct = new JMenu("Add Product");
             menuBar.add(addProduct);
             addProduct.addMenuListener(navigate);
         }
+          menuBar.add(quit);
 
         int counter = 0;
 
@@ -61,10 +66,8 @@ public class MainPage {
         for (int j = 0; j < Product.getAllProduct().size() / 4; j++) {
             row = new JPanel();
             row.setLayout(new FlowLayout());
-//            row.setBackground(new Color(0,0,0,96));
             JPanel buttonRow = new JPanel();
             buttonRow.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 10));
-//            buttonRow.setBackground(new Color(0,0,0,96));
 
             for (int i = 0; i < 4; i++) {
                 counter += 1;
@@ -78,7 +81,6 @@ public class MainPage {
                 buttons.add(testButton);
                 testButton.addActionListener(selectProduct);
 
-                // System.out.println((j * 4) + i);
                 testLabel = new JLabel();
                 testLabel.setIcon(new ImageIcon(test));
 
@@ -113,7 +115,6 @@ public class MainPage {
                 buttons.add(testButton);
                 testButton.addActionListener(selectProduct);
 
-                // System.out.println((j * 4) + i);
                 testLabel = new JLabel();
                 testLabel.setIcon(new ImageIcon(test));
 
@@ -191,6 +192,8 @@ public class MainPage {
                 new MainPage();
             } else if (e.getSource() == addProduct) {
                 new AddProduct();
+            } else if(e.getSource() == quit){
+              new LoginPage();  
             }
 
             frame.dispose();

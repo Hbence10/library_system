@@ -17,6 +17,7 @@ public class SearchPage {
     JMenu search;
     JMenu history;
     JMenu addProduct;
+    JMenu quit;
     JFormattedTextField searchBar;
     JPanel containerPanel;
     JPanel row;
@@ -38,10 +39,12 @@ public class SearchPage {
         mainPage = new JMenu("Main Page");
         search = new JMenu("Search");
         history = new JMenu("My History");
+        quit = new JMenu("Log out");
 
         mainPage.addMenuListener(navigate);
         search.addMenuListener(navigate);
         history.addMenuListener(navigate);
+        quit.addMenuListener(navigate);
 
         menuBar.add(mainPage);
         menuBar.add(search);
@@ -52,7 +55,9 @@ public class SearchPage {
             menuBar.add(addProduct);
             addProduct.addMenuListener(navigate);
         }
-
+        
+        menuBar.add(quit);
+        
         try {
             frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg8.jpg")))));
         } catch (Exception e) {
@@ -86,6 +91,8 @@ public class SearchPage {
                 new MainPage();
             } else if (e.getSource() == addProduct) {
                 new AddProduct();
+            } else if (e.getSource() == quit) {
+                new LoginPage();
             }
 
             frame.dispose();

@@ -4,19 +4,11 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -34,6 +26,7 @@ public class AddProduct {
     JMenu search;
     JMenu history;
     JMenu addProduct;
+    JMenu quit;
     JPanel formPanel;
     JTextField title;
     JTextField author;
@@ -56,10 +49,12 @@ public class AddProduct {
         mainPage = new JMenu("Main Page");
         search = new JMenu("Search");
         history = new JMenu("My History");
+        quit = new JMenu("Log out");
 
         mainPage.addMenuListener(navigate);
         search.addMenuListener(navigate);
         history.addMenuListener(navigate);
+        quit.addMenuListener(navigate);
 
         menuBar.add(mainPage);
         menuBar.add(search);
@@ -70,6 +65,8 @@ public class AddProduct {
             menuBar.add(addProduct);
             addProduct.addMenuListener(navigate);
         }
+        
+        menuBar.add(quit);
 
         try {
             frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg8.jpg")))));
@@ -79,7 +76,6 @@ public class AddProduct {
         formPanel = new JPanel();
         formPanel.setBounds(210, 0, 860, 720);
         formPanel.setLayout(null);
-//        formPanel.setOpaque(false);
         formPanel.setBackground(new Color(0, 0, 0, 95));
 
         JLabel mainTitle = new JLabel("Add Product");
@@ -184,6 +180,8 @@ public class AddProduct {
                 new MainPage();
             } else if (e.getSource() == addProduct) {
                 new AddProduct();
+            }else if(e.getSource() == quit){
+              new LoginPage();  
             }
 
             frame.dispose();
@@ -208,14 +206,14 @@ public class AddProduct {
             if (response == JFileChooser.APPROVE_OPTION) {
                 try {
                     selectedFile = chooser.getSelectedFile();
-                    Path form= Paths.get(selectedFile.toURI());
+                    Path form = Paths.get(selectedFile.toURI());
                     Path to = Paths.get("src\\coverImgs\\" + selectedFile.getName());
-                   
+
                     Files.copy(form, to);
                 } catch (IOException ex) {
                     Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
                 }
-              
+
             }
         }
     };
@@ -223,11 +221,6 @@ public class AddProduct {
     ActionListener addProductToDatabase = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println(title.getText());
-            System.out.println(ISBN.getText());
-            System.out.println(description.getText());
-            System.out.println(rDate.getText());
-            System.out.println(author.getText());
             ArrayList<String> details = new ArrayList<>(Arrays.asList(title.getText(), ISBN.getText(), description.getText(), rDate.getText(), author.getText()));
 
             uploadToDatabase(details);
@@ -238,9 +231,8 @@ public class AddProduct {
 
     public void uploadToDatabase(ArrayList<String> details) {
         String url = "jdbc:mysql://localhost:3306/library";
-        String query = "INSERT INTO `library`.`book`(`bookId`,`title`,`ISBN_Number`,`description`,`available`,`relaese_Date`,`coverImg`,`author`)VALUES (" + 
-                (Product.getAllProduct().size() +1) + ",\""  + details.get(0) + "\"," + details.get(1) + ", \" " + details.get(2) + "\", 1, \"" + details.get(3) + "\",\""+selectedFile.getName() +"\",\"" + details.get(4)+ "\" );";
-        
+        String query = "INSERT INTO `library`.`book`(`bookId`,`title`,`ISBN_Number`,`description`,`available`,`relaese_Date`,`coverImg`,`author`)VALUES ("
+                + (Product.getAllProduct().size() + 1) + ",\"" + details.get(0) + "\"," + details.get(1) + ", \" " + details.get(2) + "\", 1, \"" + details.get(3) + "\",\"" + selectedFile.getName() + "\",\"" + details.get(4) + "\" );";
 
         System.out.println(query);
         try {

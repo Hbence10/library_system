@@ -26,6 +26,7 @@ public class ProductPage {
     JMenu search;
     JMenu history;
     JMenu addProduct;
+        JMenu quit;
 
     public ProductPage() {
         frame = new JFrame();
@@ -44,10 +45,12 @@ public class ProductPage {
         mainPage = new JMenu("Main Page");
         search = new JMenu("Search");
         history = new JMenu("My History");
+quit = new JMenu("Log out");
 
         mainPage.addMenuListener(navigate);
         search.addMenuListener(navigate);
         history.addMenuListener(navigate);
+          quit.addMenuListener(navigate);
 
         menuBar.add(mainPage);
         menuBar.add(search);
@@ -233,6 +236,8 @@ public class ProductPage {
                 new MainPage();
             } else if (e.getSource() == addProduct) {
                 new AddProduct();
+            }else if(e.getSource() == quit){
+              new LoginPage();  
             }
 
             frame.dispose();

@@ -23,6 +23,7 @@ public class HistoryPage {
     JMenu search;
     JMenu history;
     JMenu addProduct;
+    JMenu quit;
     JPanel detailsPanel;
     ArrayList<JButton> sendButtons = new ArrayList<JButton>();
     ArrayList<JButton> checkButtons = new ArrayList<JButton>();
@@ -46,10 +47,12 @@ public class HistoryPage {
         mainPage = new JMenu("Main Page");
         search = new JMenu("Search");
         history = new JMenu("My History");
+        quit = new JMenu("Log out");
 
         mainPage.addMenuListener(navigate);
         search.addMenuListener(navigate);
         history.addMenuListener(navigate);
+        quit.addMenuListener(navigate);
 
         menuBar.add(mainPage);
         menuBar.add(search);
@@ -60,11 +63,11 @@ public class HistoryPage {
             menuBar.add(addProduct);
             addProduct.addMenuListener(navigate);
         }
-
+        menuBar.add(quit);
         detailsPanel = new JPanel();
         detailsPanel.setBounds(150, 75, 980, 570);
         detailsPanel.setLayout(null);
-        detailsPanel.setBackground(new Color(0,0,0,96));
+        detailsPanel.setBackground(new Color(0, 0, 0, 96));
 
         JLabel username = new JLabel(Account.logedAcc.getUsername().replace("\"", "") + "'s history");
         username.setFont(new Font("Mv Boli", Font.PLAIN, 45));
@@ -103,9 +106,8 @@ public class HistoryPage {
             endDate.setForeground(Color.white);
 
             JLabel status = new JLabel(History.fullHistory.get(i).getOngoing() ? "Active" : "Ended");
-            status.setForeground(History.fullHistory.get(i).getOngoing()? Color.red : Color.green);
+            status.setForeground(History.fullHistory.get(i).getOngoing() ? Color.red : Color.green);
             status.setBounds(155, 95 + (i * 30), 100, 50);
-            
 
             endDate.setBounds(375, 95 + (i * 30), 100, 50);
             endDate.setForeground(Color.white);
@@ -143,6 +145,8 @@ public class HistoryPage {
                 new MainPage();
             } else if (e.getSource() == addProduct) {
                 new AddProduct();
+            }else if(e.getSource() == quit){
+              new LoginPage();  
             }
 
             frame.dispose();
@@ -191,7 +195,6 @@ public class HistoryPage {
         @Override
         public void actionPerformed(ActionEvent e) {
             int index = checkButtons.indexOf(e.getSource());
-            System.out.println(Product.getAllProduct().get(History.fullHistory.get(index).getBookId() - 1));
             Product.setSelectedProduct(Product.getAllProduct().get(History.fullHistory.get(index).getBookId() - 1));
 
             frame.dispose();
@@ -214,7 +217,7 @@ public class HistoryPage {
             ArrayList<String> querys = new ArrayList<String>(Arrays.asList(
                     "UPDATE library.book SET lendBy=0, available = true, availableDate = NULL, lendDate = NULL WHERE bookId = " + Product.selectedProduct.getBookId() + " ;",
                     "UPDATE library.lendhistory SET endDate = " + "\"" + LocalDate.now() + "\" WHERE bookTitle = " + selected.getBookId() + ";",
-                    "UPDATE library.lendtracker SET finish = true, endDate = \"" + LocalDate.now()+ "\" WHERE bookId= " + selected.getBookId() + ";"
+                    "UPDATE library.lendtracker SET finish = true, endDate = \"" + LocalDate.now() + "\" WHERE bookId= " + selected.getBookId() + ";"
             ));
             for (String i : querys) {
                 System.out.println(i);
@@ -236,7 +239,6 @@ public class HistoryPage {
 
         try {
             for (int i = 0; i < querys.size(); i++) {
-                System.out.println(querys.get(i));
                 Connection con = DriverManager.getConnection(url, "root", "ASDasd123");
                 Statement statement = con.createStatement();
                 statement.executeUpdate(querys.get(i));
