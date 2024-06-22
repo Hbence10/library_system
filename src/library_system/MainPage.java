@@ -32,7 +32,7 @@ public class MainPage {
         frame.setSize(1280, 720);
         frame.setTitle("Library System - Main page");
         frame.setResizable(false);
-        frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
+        frame.setIconImage(new ImageIcon("src\\mainIcon.jpg").getImage());
 
         JMenuBar menuBar = new JMenuBar();
         mainPage = new JMenu("Main Page");

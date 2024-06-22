@@ -24,11 +24,11 @@ class LoginPage {
         frame.setLayout(null);
         frame.setTitle("Library System - Login page");
         frame.setResizable(false);
-        frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
+        frame.setIconImage(new ImageIcon("src\\mainIcon.jpg").getImage());
        
 
         try {
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg8.jpg")))));
+            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg.jpg")))));
         } catch (Exception e) {
         }
 
@@ -36,18 +36,21 @@ class LoginPage {
         loginBox.setBounds(330, 197, 620, 326);
         loginBox.setBackground(new Color(0, 0, 0,99));
         loginBox.setLayout(null);
+       
 
         JLabel text1 = new JLabel("Username:");
         text1.setBounds(177, 70, 276, 30);
         text1.setForeground(Color.WHITE);
         usernameInput = new JTextField();
         usernameInput.setBounds(177, 95, 276, 30);
-
+        usernameInput.addKeyListener(signWithKeyBoard);
+        
         JLabel text2 = new JLabel("Password:");
         text2.setBounds(177, 155, 276, 30);
         text2.setForeground(Color.WHITE);
         passwordInput = new JPasswordField();
         passwordInput.setBounds(177, 180, 276, 30);
+        passwordInput.addKeyListener(signWithKeyBoard);
 
         JButton text3 = new JButton("Sign up");
         text3.setBounds(155, 220, 95, 20);
@@ -135,5 +138,20 @@ class LoginPage {
             } catch (Exception d) {
             }
         }
+    };
+    
+    KeyListener signWithKeyBoard = new KeyListener() {
+        @Override
+        public void keyTyped(KeyEvent e) {}
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if(e.getKeyCode() == 10){
+                checkAccount("\"" + usernameInput.getText() + "\"", "\"" + passwordInput.getText() + "\"");
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {}
     };
 }

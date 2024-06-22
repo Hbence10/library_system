@@ -34,10 +34,10 @@ public class ProductPage {
         frame.setLayout(null);
         frame.setTitle("Library System - " + Product.selectedProduct.getTitle());
         frame.setResizable(false);
-        frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
+        frame.setIconImage(new ImageIcon("src\\mainIcon.jpg").getImage());
 
         try {
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg8.jpg")))));
+            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg.jpg")))));
         } catch (Exception e) {
         }
 
@@ -127,7 +127,7 @@ quit = new JMenu("Log out");
         availableDate.setBounds(20, 565, 610, 20);
         availableDate.setForeground(Color.white);
 
-        ImageIcon icon = new ImageIcon("src\\icon5.jpg");
+        ImageIcon icon = new ImageIcon("src\\trashIcon.jpg");
 
         JButton deleteProduct = new JButton(icon);
         deleteProduct.setBounds(555, 20, 35, 35);
@@ -169,7 +169,7 @@ quit = new JMenu("Log out");
     ActionListener lend = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            ImageIcon thanksIcon = new ImageIcon("src\\icon3.jpg");
+            ImageIcon thanksIcon = new ImageIcon("src\\dazaiIcon.jpg");
 
             Calendar c = Calendar.getInstance();
             c.add(Calendar.DATE, 30);

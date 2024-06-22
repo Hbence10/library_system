@@ -36,10 +36,10 @@ public class HistoryPage {
         frame.setLayout(null);
         frame.setTitle("Library System - " + Account.logedAcc.getUsername().replace("\"", "") + "'s Histroy");
         frame.setResizable(false);
-        frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
+        frame.setIconImage(new ImageIcon("src\\mainIcon.jpg").getImage());
 
         try {
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg8.jpg")))));
+            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg.jpg")))));
         } catch (Exception e) {
         }
 

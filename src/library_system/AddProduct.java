@@ -42,7 +42,7 @@ public class AddProduct {
         frame.setLayout(null);
         frame.setTitle("Library System - Add Product");
         frame.setResizable(false);
-        frame.setIconImage(new ImageIcon("src\\icon.jpg").getImage());
+        frame.setIconImage(new ImageIcon("src\\mainIcon.jpg").getImage());
         frame.setForeground(Color.red);
 
         JMenuBar menuBar = new JMenuBar();
@@ -69,7 +69,7 @@ public class AddProduct {
         menuBar.add(quit);
 
         try {
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg8.jpg")))));
+            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg.jpg")))));
         } catch (Exception e) {
         }
 

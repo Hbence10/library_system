@@ -114,6 +114,7 @@ export class SignPageComponent implements OnInit{
     details.append("email", this.form.value.email);
 
     this.http.post("http://localhost/library/sign.php", details);
+    this.http.post("http://localhost/library/email.php", details).subscribe(res => console.log(res));
   }
 
   

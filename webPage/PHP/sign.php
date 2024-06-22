@@ -7,7 +7,7 @@
         
         $stmt -> execute();
         
-        echo json_encode("ok");
+        // echo json_encode("ok");
 
         $pdo = null;
         $stmt = null;
