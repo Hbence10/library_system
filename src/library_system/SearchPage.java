@@ -2,6 +2,8 @@ package library_system;
 
 import java.util.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
@@ -21,6 +23,7 @@ public class SearchPage {
     JFormattedTextField searchBar;
     JPanel containerPanel;
     JPanel row;
+    JPanel buttonRow;
 
     public SearchPage() {
         frame = new JFrame();
@@ -34,6 +37,11 @@ public class SearchPage {
         row.setLayout(new FlowLayout());
         row.setBounds(20, 200, 1280, 500);
         row.setOpaque(false);
+
+        buttonRow = new JPanel();
+        buttonRow.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 10));
+        buttonRow.setBounds(20, 550, 1280, 100);
+        buttonRow.setOpaque(false);
 
         JMenuBar menuBar = new JMenuBar();
         mainPage = new JMenu("Main Page");
@@ -107,7 +115,8 @@ public class SearchPage {
         public void menuCanceled(MenuEvent e) {
         }
     };
-    HashSet<Integer> matchedProducts = new HashSet<Integer>();
+    ArrayList<Integer> matchedProducts = new ArrayList<Integer>();
+    ArrayList<JButton> buttons = new ArrayList<JButton>();
     KeyListener searchEvent = new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
@@ -119,18 +128,26 @@ public class SearchPage {
             counter += 1;
 
             if (searchBar.getText().length() < 3) {
-                matchedProducts = new HashSet<Integer>();
+                matchedProducts = new ArrayList<Integer>();
+                buttons = new ArrayList<JButton>();
                 System.out.println("kevesebb matched: " + matchedProducts);
                 row.removeAll();
                 row.revalidate();
                 row.repaint();
+                buttonRow.removeAll();
+                buttonRow.revalidate();
+                buttonRow.repaint();
             }
 
             if (searchBar.getText().trim().length() >= 3) {
                 row.removeAll();
                 row.revalidate();
                 row.repaint();
-                matchedProducts = new HashSet<Integer>();
+                buttonRow.removeAll();
+                buttonRow.revalidate();
+                buttonRow.repaint();
+                matchedProducts = new ArrayList<Integer>();
+                buttons = new ArrayList<JButton>();
                 for (int i = 0; i < Product.getAllProduct().size(); i++) {
                     String originTitle = "";
                     String originAuthor = "";
@@ -151,6 +168,9 @@ public class SearchPage {
 
                     if (originTitle.toLowerCase().equals(searchBar.getText().toLowerCase().trim()) || originAuthor.toLowerCase().equals(searchBar.getText().toLowerCase().trim()) || originISBN.toLowerCase().equals(searchBar.getText().toLowerCase().trim())) {
                         matchedProducts.add(i);
+                        JButton button = new JButton("Check");
+                        buttons.add(button);
+                        button.addActionListener(checkProduct);
                     }
 
                 }
@@ -168,17 +188,39 @@ public class SearchPage {
                 testList.add(testLabel);
                 testLabel.setForeground(Color.BLACK);
                 testLabel.setBackground(Color.black);
+//                buttonRow.add(button);
+//                buttonRow.repaint();
                 row.add(testLabel);
                 row.repaint();
             }
+            
+            for(JButton i : buttons){
+                i.setFocusable(false);
+                i.setPreferredSize(new Dimension(175,25));
+                i.setBackground(Color.WHITE);
+                i.setBorder(BorderFactory.createEtchedBorder());
+                buttonRow.add(i);
+                buttonRow.repaint();
+            }
 
             frame.add(row);
+            frame.add(buttonRow);
             frame.setVisible(true);
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
 
+        }
+    };
+
+    ActionListener checkProduct = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Product index: " + matchedProducts.get(buttons.indexOf(e.getSource())));
+            Product.setSelectedProduct(Product.getAllProduct().get(matchedProducts.get(buttons.indexOf(e.getSource()))));
+            frame.dispose();
+            new ProductPage();
         }
     };
 }
