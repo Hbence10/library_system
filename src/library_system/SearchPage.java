@@ -55,9 +55,9 @@ public class SearchPage {
             menuBar.add(addProduct);
             addProduct.addMenuListener(navigate);
         }
-        
+
         menuBar.add(quit);
-        
+
         try {
             frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg8.jpg")))));
         } catch (Exception e) {
@@ -80,6 +80,7 @@ public class SearchPage {
         frame.setVisible(true);
     }
 
+    int counter = 0;
     MenuListener navigate = new MenuListener() {
         @Override
         public void menuSelected(MenuEvent e) {
@@ -115,19 +116,21 @@ public class SearchPage {
 
         @Override
         public void keyPressed(KeyEvent e) {
+            counter += 1;
 
-            //    System.out.println(searchBar.getText().length());
-            if (searchBar.getText().trim().length() - 2 < 3) {
-                System.out.println("kevesebb elso");
-                for (int i = row.getComponentCount(); i >= 0; i--) {
-                    row.removeAll();
-                    row.repaint();
-                }
+            if (searchBar.getText().length() < 3) {
+                matchedProducts = new HashSet<Integer>();
+                System.out.println("kevesebb matched: " + matchedProducts);
+                row.removeAll();
+                row.revalidate();
+                row.repaint();
             }
 
             if (searchBar.getText().trim().length() >= 3) {
                 row.removeAll();
+                row.revalidate();
                 row.repaint();
+                matchedProducts = new HashSet<Integer>();
                 for (int i = 0; i < Product.getAllProduct().size(); i++) {
                     String originTitle = "";
                     String originAuthor = "";
@@ -151,7 +154,7 @@ public class SearchPage {
                     }
 
                 }
-                //System.out.println("searchbar length: " + searchBar.getText().length());
+
             }
 
             ArrayList<JLabel> testList = new ArrayList<JLabel>();
@@ -166,7 +169,7 @@ public class SearchPage {
                 testLabel.setForeground(Color.BLACK);
                 testLabel.setBackground(Color.black);
                 row.add(testLabel);
-                //System.out.println("component count: "+row.getComponentCount());
+                row.repaint();
             }
 
             frame.add(row);
