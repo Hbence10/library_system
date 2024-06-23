@@ -34,12 +34,12 @@ public class SearchPage {
         frame.setIconImage(new ImageIcon("src\\mainIcon.jpg").getImage());
 
         row = new JPanel();
-        row.setLayout(new FlowLayout());
+        row.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         row.setBounds(20, 200, 1280, 500);
         row.setOpaque(false);
 
         buttonRow = new JPanel();
-        buttonRow.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 10));
+        buttonRow.setLayout(new FlowLayout(FlowLayout.CENTER, 60, 10));
         buttonRow.setBounds(20, 550, 1280, 100);
         buttonRow.setOpaque(false);
 
