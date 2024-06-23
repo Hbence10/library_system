@@ -174,7 +174,7 @@ public class MainPage {
         public void actionPerformed(ActionEvent e) {
             Product.selectedProduct = Product.getAllProduct().get(buttons.indexOf(e.getSource()));
             frame.dispose();
-            new ProductPage();
+            new ProductPage(false);
         }
     };
 

@@ -8,9 +8,12 @@ import java.nio.file.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.logging.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import static javax.swing.UIManager.get;
 import javax.swing.event.*;
 
 public class AddProduct {
@@ -59,7 +62,7 @@ public class AddProduct {
             menuBar.add(addProduct);
             addProduct.addMenuListener(navigate);
         }
-        
+
         menuBar.add(quit);
 
         try {
@@ -126,6 +129,7 @@ public class AddProduct {
         previewButton.setFocusable(false);
         previewButton.setBackground(new Color(255, 213, 5));
         previewButton.setBorder(BorderFactory.createEtchedBorder());
+        previewButton.addActionListener(preview);
 
         rDate = new JTextField();
         rDate.setBounds(650, 160, 195, 25);
@@ -174,8 +178,8 @@ public class AddProduct {
                 new MainPage();
             } else if (e.getSource() == addProduct) {
                 new AddProduct();
-            }else if(e.getSource() == quit){
-              new LoginPage();  
+            } else if (e.getSource() == quit) {
+                new LoginPage();
             }
 
             frame.dispose();
@@ -215,7 +219,7 @@ public class AddProduct {
     ActionListener addProductToDatabase = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            ArrayList<String> details = new ArrayList<>(Arrays.asList(title.getText(), ISBN.getText(), description.getText(), rDate.getText(), author.getText()));
+            ArrayList<String> details = new ArrayList<String>(Arrays.asList(title.getText(), ISBN.getText(), description.getText(), rDate.getText(), author.getText()));
 
             uploadToDatabase(details);
             frame.dispose();
@@ -245,4 +249,16 @@ public class AddProduct {
             System.out.println("hiba");
         }
     }
+
+    ActionListener preview = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ArrayList<String> asd = new ArrayList<String>(Arrays.asList(title.getText(), ISBN.getText(), description.getText(), rDate.getText(), author.getText()));
+            Date rDate = Date.from(LocalDate.parse(asd.get(3)).atStartOfDay().toInstant(ZoneOffset.UTC));
+            Product previewProduct = new Product((Product.getAllProduct().size() + 1), asd.get(0), Integer.valueOf(asd.get(1)), asd.get(2), true, rDate, selectedFile.getName(), asd.get(4), 0);
+            Product.setSelectedProduct(previewProduct);
+            new ProductPage(true);
+
+        }
+    };
 }

@@ -13,7 +13,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 public class ProductPage {
-
+//    static boolean preview = false;
     JFrame frame;
     JPanel coverPanel;
     JLabel coverImg;
@@ -24,7 +24,7 @@ public class ProductPage {
     JMenu addProduct;
     JMenu quit;
 
-    public ProductPage() {
+    public ProductPage(boolean preview) {
         frame = new JFrame();
         frame.setSize(1280, 720);
         frame.setLayout(null);
@@ -155,7 +155,9 @@ public class ProductPage {
         detailsPanel.add(available);
 
         frame.setJMenuBar(menuBar);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        if(!preview){
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        }
         frame.add(coverPanel);
         frame.add(detailsPanel);
         frame.setVisible(true);

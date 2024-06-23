@@ -215,7 +215,7 @@ public class SearchPage {
         public void actionPerformed(ActionEvent e) {
             Product.setSelectedProduct(Product.getAllProduct().get(matchedProducts.get(buttons.indexOf(e.getSource()))));
             frame.dispose();
-            new ProductPage();
+            new ProductPage(false);
         }
     };
 }

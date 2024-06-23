@@ -196,7 +196,7 @@ public class HistoryPage {
             Product.setSelectedProduct(Product.getAllProduct().get(History.getFullHistory().get(index).getBookId() - 1));
 
             frame.dispose();
-            new ProductPage();
+            new ProductPage(false);
             System.out.println();
         }
     };
