@@ -4,9 +4,9 @@
 
 ## Topics: 
 * [Apperance](#Apperance)
-* [Technologies in Project](#Technologies_in_Project)
-* [Plans for Version 2](##PlansforVersion2)
-* [Helpfull websites](#Helpfullwebsites)
+* [Technologies in Project](#technologies-in-project)
+* [Plans for Version 2](plans-for-version-2)
+* [Helpfull websites](#plans-for-version-2)
 * [Contact](#Contact)
 
 # Apperance: 
