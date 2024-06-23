@@ -4,10 +4,10 @@
 
 ## Topics: 
 * [Apperance](#Apperance)
-* Technologies in Project
-* Plans for Version 2
-* Helpfull websites
-* Contact
+* [Technologies in Project](#TechnologiesinProject)
+* [Plans for Version 2](##PlansforVersion2)
+* [Helpfull websites](#Helpfullwebsites)
+* [Contact](#Contact)
 
 # Apperance: 
 ### Login Page - Java Swing: 
@@ -49,6 +49,7 @@
 * Better design with JavaFx
 * Add review and raiting for "books"
 * Add filter for search
+* Add JDatePicker for Product Add Page
 
 # Helpfull websites
 * [Requirements](https://www.naukri.com/code360/library/design-a-library-management-system-low-level-design)
