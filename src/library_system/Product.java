@@ -1,7 +1,5 @@
 package library_system;
 import java.util.* ;
-import java.awt.*;
-import javax.swing.*;
 
 public class Product {
     private int bookId;
@@ -16,8 +14,8 @@ public class Product {
     private String author;
     private int lendBy;
     
-    public static ArrayList<Product> allProduct = new ArrayList<Product>();
-    public static ArrayList<Product> searchedProduct = new ArrayList<Product>();
+    private static ArrayList<Product> allProduct = new ArrayList<Product>();
+    private static ArrayList<Product> searchedProduct = new ArrayList<Product>();
 
     public static Product selectedProduct;
     
@@ -52,8 +50,6 @@ public class Product {
         return lendBy;
     }
 
-    
-    
     public static ArrayList<Product> getAllProduct() {
         return allProduct;
     }
@@ -104,6 +100,54 @@ public class Product {
 
     public static void setSelectedProduct(Product selectedProduct) {
         Product.selectedProduct = selectedProduct;
+    }
+
+    public static ArrayList<Product> getSearchedProduct() {
+        return searchedProduct;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
+    }
+
+    public void setCoverImg(String coverImg) {
+        this.coverImg = coverImg;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setISBN(int ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public void setLendBy(int lendBy) {
+        this.lendBy = lendBy;
+    }
+
+    public void setLendDate(Date lendDate) {
+        this.lendDate = lendDate;
+    }
+
+    public void setRelaeseDate(Date relaeseDate) {
+        this.relaeseDate = relaeseDate;
+    }
+
+    public static void setSearchedProduct(ArrayList<Product> searchedProduct) {
+        Product.searchedProduct = searchedProduct;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
     
     

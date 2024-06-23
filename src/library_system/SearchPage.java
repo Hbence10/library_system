@@ -58,7 +58,7 @@ public class SearchPage {
         menuBar.add(search);
         menuBar.add(history);
 
-        if (Account.logedAcc.getAdmin()) {
+        if (Account.getLogedAcc().getAdmin()) {
             addProduct = new JMenu("Add Product");
             menuBar.add(addProduct);
             addProduct.addMenuListener(navigate);
@@ -130,7 +130,6 @@ public class SearchPage {
             if (searchBar.getText().length() < 3) {
                 matchedProducts = new ArrayList<Integer>();
                 buttons = new ArrayList<JButton>();
-                System.out.println("kevesebb matched: " + matchedProducts);
                 row.removeAll();
                 row.revalidate();
                 row.repaint();
@@ -177,20 +176,17 @@ public class SearchPage {
 
             }
 
-            ArrayList<JLabel> testList = new ArrayList<JLabel>();
+            ArrayList<JLabel> coverImgList = new ArrayList<JLabel>();
 
             for (int i : matchedProducts) {
-                Image img1 = new ImageIcon("src\\coverImgs\\" + Product.allProduct.get(i).getCoverImg()).getImage();
-                Image test = img1.getScaledInstance(220, 320, Image.SCALE_DEFAULT);
-
-                JLabel testLabel = new JLabel();
-                testLabel.setIcon(new ImageIcon(test));
-                testList.add(testLabel);
-                testLabel.setForeground(Color.BLACK);
-                testLabel.setBackground(Color.black);
-//                buttonRow.add(button);
-//                buttonRow.repaint();
-                row.add(testLabel);
+                Image firstImg = new ImageIcon("src\\coverImgs\\" + Product.getAllProduct().get(i).getCoverImg()).getImage();
+                Image coverImg = firstImg.getScaledInstance(220, 320, Image.SCALE_DEFAULT);
+                JLabel coverLabel = new JLabel();
+                coverLabel.setIcon(new ImageIcon(coverImg));
+                coverImgList.add(coverLabel);
+                coverLabel.setForeground(Color.BLACK);
+                coverLabel.setBackground(Color.black);
+                row.add(coverLabel);
                 row.repaint();
             }
             
@@ -217,7 +213,6 @@ public class SearchPage {
     ActionListener checkProduct = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Product index: " + matchedProducts.get(buttons.indexOf(e.getSource())));
             Product.setSelectedProduct(Product.getAllProduct().get(matchedProducts.get(buttons.indexOf(e.getSource()))));
             frame.dispose();
             new ProductPage();

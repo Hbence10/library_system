@@ -2,19 +2,15 @@ package library_system;
 
 import java.util.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
+import javax.swing.event.*;
 
 public class ProductPage {
 
@@ -26,7 +22,7 @@ public class ProductPage {
     JMenu search;
     JMenu history;
     JMenu addProduct;
-        JMenu quit;
+    JMenu quit;
 
     public ProductPage() {
         frame = new JFrame();
@@ -45,18 +41,18 @@ public class ProductPage {
         mainPage = new JMenu("Main Page");
         search = new JMenu("Search");
         history = new JMenu("My History");
-quit = new JMenu("Log out");
+        quit = new JMenu("Log out");
 
         mainPage.addMenuListener(navigate);
         search.addMenuListener(navigate);
         history.addMenuListener(navigate);
-          quit.addMenuListener(navigate);
+        quit.addMenuListener(navigate);
 
         menuBar.add(mainPage);
         menuBar.add(search);
         menuBar.add(history);
 
-        if (Account.logedAcc.getAdmin()) {
+        if (Account.getLogedAcc().getAdmin()) {
             addProduct = new JMenu("Add Product");
             menuBar.add(addProduct);
             addProduct.addMenuListener(navigate);
@@ -74,7 +70,6 @@ quit = new JMenu("Log out");
         detailsPanel = new JPanel();
         detailsPanel.setBounds(590, 20, 610, 600);
         detailsPanel.setBackground(new Color(0, 0, 0, 95));
-//    detailsPanel.setOpaque(false);
         detailsPanel.setLayout(null);
 
         JLabel title = new JLabel(Product.getSelectedProduct().getTitle());
@@ -143,11 +138,11 @@ quit = new JMenu("Log out");
             detailsPanel.add(availableDate);
         }
 
-        if (Product.getSelectedProduct().getLendBy() == Account.logedAcc.getUserId()) {
+        if (Product.getSelectedProduct().getLendBy() == Account.getLogedAcc().getUserId()) {
             detailsPanel.add(sendButton);
         }
 
-        if (Account.logedAcc.getAdmin()) {
+        if (Account.getLogedAcc().getAdmin()) {
             detailsPanel.add(deleteProduct);
         }
 
@@ -176,9 +171,9 @@ quit = new JMenu("Log out");
             Date endDate = c.getTime();
 
             ArrayList<String> querys = new ArrayList<String>(Arrays.asList(
-                    "INSERT INTO library.lendhistory (`userId`, `startDate`, `bookTitle`) VALUES (" + Account.logedAcc.getUserId() + ", \"" + LocalDate.now() + "\"," + Product.getSelectedProduct().getBookId() + ");",
-                    "UPDATE library.book SET available = false , lendDate = \"" + LocalDate.now() + "\",availableDate =  \"" + endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() + "\", lendBy = " + Account.logedAcc.getUserId() + " WHERE bookId = " + Product.selectedProduct.getBookId() + ";",
-                    "INSERT INTO library.lendtracker (`bookId`, `userId`, `startDate`) VALUES (" + Product.getSelectedProduct().getBookId() + ", " + Account.logedAcc.getUserId() + ", \"" + LocalDate.now() + "\");"
+                    "INSERT INTO library.lendhistory (`userId`, `startDate`, `bookTitle`) VALUES (" + Account.getLogedAcc().getUserId() + ", \"" + LocalDate.now() + "\"," + Product.getSelectedProduct().getBookId() + ");",
+                    "UPDATE library.book SET available = false , lendDate = \"" + LocalDate.now() + "\",availableDate =  \"" + endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() + "\", lendBy = " + Account.getLogedAcc().getUserId() + " WHERE bookId = " + Product.selectedProduct.getBookId() + ";",
+                    "INSERT INTO library.lendtracker (`bookId`, `userId`, `startDate`) VALUES (" + Product.getSelectedProduct().getBookId() + ", " + Account.getLogedAcc().getUserId() + ", \"" + LocalDate.now() + "\");"
             ));
 
             sendLend(querys);
@@ -236,8 +231,8 @@ quit = new JMenu("Log out");
                 new MainPage();
             } else if (e.getSource() == addProduct) {
                 new AddProduct();
-            }else if(e.getSource() == quit){
-              new LoginPage();  
+            } else if (e.getSource() == quit) {
+                new LoginPage();
             }
 
             frame.dispose();

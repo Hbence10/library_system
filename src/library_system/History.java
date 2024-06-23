@@ -1,7 +1,5 @@
 package library_system;
 import java.util.* ;
-import java.awt.*;
-import javax.swing.*;
 
 public class History {
     private int bookId;
@@ -10,7 +8,7 @@ public class History {
     private boolean ongoing;
     private int lendId;
     
-    public static ArrayList<History> fullHistory = new ArrayList<History>();
+    private static ArrayList<History> fullHistory = new ArrayList<History>();
 
     public History(int bookId, Date startDate, int lendId) {
         this.bookId = bookId;
@@ -50,6 +48,22 @@ public class History {
 
     public static void setFullHistory(ArrayList<History> fullHistory) {
         History.fullHistory = fullHistory;
+    }
+
+    public static ArrayList<History> getFullHistory() {
+        return fullHistory;
+    }
+
+    public int getLendId() {
+        return lendId;
+    }
+
+    public void setLendId(int lendId) {
+        this.lendId = lendId;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
   
   

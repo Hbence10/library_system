@@ -2,8 +2,7 @@ package library_system;
 
 import java.util.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,8 +12,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
+import javax.swing.event.*;
 
 public class HistoryPage {
 
@@ -34,7 +32,7 @@ public class HistoryPage {
         frame = new JFrame();
         frame.setSize(1280, 720);
         frame.setLayout(null);
-        frame.setTitle("Library System - " + Account.logedAcc.getUsername().replace("\"", "") + "'s Histroy");
+        frame.setTitle("Library System - " + Account.getLogedAcc().getUsername().replace("\"", "") + "'s Histroy");
         frame.setResizable(false);
         frame.setIconImage(new ImageIcon("src\\mainIcon.jpg").getImage());
 
@@ -58,7 +56,7 @@ public class HistoryPage {
         menuBar.add(search);
         menuBar.add(history);
 
-        if (Account.logedAcc.getAdmin()) {
+        if (Account.getLogedAcc().getAdmin()) {
             addProduct = new JMenu("Add Product");
             menuBar.add(addProduct);
             addProduct.addMenuListener(navigate);
@@ -69,7 +67,7 @@ public class HistoryPage {
         detailsPanel.setLayout(null);
         detailsPanel.setBackground(new Color(0, 0, 0, 96));
 
-        JLabel username = new JLabel(Account.logedAcc.getUsername().replace("\"", "") + "'s history");
+        JLabel username = new JLabel(Account.getLogedAcc().getUsername().replace("\"", "") + "'s history");
         username.setFont(new Font("Mv Boli", Font.PLAIN, 45));
         username.setBounds(0, 0, 980, 60);
         username.setHorizontalAlignment(JLabel.CENTER);
@@ -77,7 +75,7 @@ public class HistoryPage {
 
         detailsPanel.add(username);
 
-        for (int i = 0; i < History.fullHistory.size(); i++) {
+        for (int i = 0; i < History.getFullHistory().size(); i++) {
             JButton endButton = new JButton("Send");
             endButton.setBounds(495, 110 + (i * 30), 150, 20);
             endButton.setFocusable(false);
@@ -86,27 +84,27 @@ public class HistoryPage {
             endButton.setBackground(Color.white);
             sendButtons.add(endButton);
 
-            JLabel title = new JLabel(Product.getAllProduct().get(History.fullHistory.get(i).getBookId() - 1).getTitle());
+            JLabel title = new JLabel(Product.getAllProduct().get(History.getFullHistory().get(i).getBookId() - 1).getTitle());
             title.setBounds(20, 95 + (i * 30), 120, 50);
             title.setForeground(Color.white);
 
-            JLabel startDate = new JLabel(History.fullHistory.get(i).getStartDate().toString());
+            JLabel startDate = new JLabel(History.getFullHistory().get(i).getStartDate().toString());
             startDate.setBounds(265, 95 + (i * 30), 100, 50);
             startDate.setForeground(Color.white);
 
             JLabel endDate = new JLabel();
             try {
-                endDate.setText(History.fullHistory.get(i).getEndDate().toString());
+                endDate.setText(History.getFullHistory().get(i).getEndDate().toString());
                 endButton.setEnabled(false);
-                History.fullHistory.get(i).setOngoing(false);
+                History.getFullHistory().get(i).setOngoing(false);
             } catch (Exception e) {
                 endDate.setText("-");
-                History.fullHistory.get(i).setOngoing(true);
+                History.getFullHistory().get(i).setOngoing(true);
             }
             endDate.setForeground(Color.white);
 
-            JLabel status = new JLabel(History.fullHistory.get(i).getOngoing() ? "Active" : "Ended");
-            status.setForeground(History.fullHistory.get(i).getOngoing() ? Color.red : Color.green);
+            JLabel status = new JLabel(History.getFullHistory().get(i).getOngoing() ? "Active" : "Ended");
+            status.setForeground(History.getFullHistory().get(i).getOngoing() ? Color.red : Color.green);
             status.setBounds(155, 95 + (i * 30), 100, 50);
 
             endDate.setBounds(375, 95 + (i * 30), 100, 50);
@@ -163,7 +161,7 @@ public class HistoryPage {
 
     public void getFullHistory() {
         String url = "jdbc:mysql://localhost:3306/library";
-        String query = "SELECT * FROM library.lendhistory WHERE userId = " + Account.logedAcc.getUserId() + ";";
+        String query = "SELECT * FROM library.lendhistory WHERE userId = " + Account.getLogedAcc().getUserId() + ";";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -195,7 +193,7 @@ public class HistoryPage {
         @Override
         public void actionPerformed(ActionEvent e) {
             int index = checkButtons.indexOf(e.getSource());
-            Product.setSelectedProduct(Product.getAllProduct().get(History.fullHistory.get(index).getBookId() - 1));
+            Product.setSelectedProduct(Product.getAllProduct().get(History.getFullHistory().get(index).getBookId() - 1));
 
             frame.dispose();
             new ProductPage();
@@ -213,7 +211,7 @@ public class HistoryPage {
             Date endDate = c.getTime();
             LocalDate locald = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-            Product selected = Product.getAllProduct().get(History.fullHistory.get(index).getBookId() - 1);
+            Product selected = Product.getAllProduct().get(History.getFullHistory().get(index).getBookId() - 1);
             ArrayList<String> querys = new ArrayList<String>(Arrays.asList(
                     "UPDATE library.book SET lendBy=0, available = true, availableDate = NULL, lendDate = NULL WHERE bookId = " + Product.selectedProduct.getBookId() + " ;",
                     "UPDATE library.lendhistory SET endDate = " + "\"" + LocalDate.now() + "\" WHERE bookTitle = " + selected.getBookId() + ";",

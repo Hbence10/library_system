@@ -2,22 +2,16 @@ package library_system;
 
 import java.util.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.awt.event.*;
+import java.io.*;
+import java.nio.file.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
+import javax.swing.event.*;
 
 public class AddProduct {
 
@@ -60,7 +54,7 @@ public class AddProduct {
         menuBar.add(search);
         menuBar.add(history);
 
-        if (Account.logedAcc.getAdmin()) {
+        if (Account.getLogedAcc().getAdmin()) {
             addProduct = new JMenu("Add Product");
             menuBar.add(addProduct);
             addProduct.addMenuListener(navigate);

@@ -1,7 +1,5 @@
 package library_system;
-import java.util.* ;
-import java.awt.*;
-import javax.swing.*;
+
 
 public class Account {
     private int userId;
@@ -10,8 +8,7 @@ public class Account {
     private String email;
     private boolean admin;
     
-    static Account logedAcc;
-    
+   private static Account logedAcc;
 
     public Account(int userId, String username, String password, String email,boolean admin) {
         this.userId = userId;
@@ -27,7 +24,7 @@ public class Account {
     public String toString() {
         return "username: " + username + " password: " + password + " a";
     }
-
+    
     public boolean getAdmin(){
         return this.admin;
     }
@@ -43,6 +40,36 @@ public class Account {
     public static void setLogedAcc(Account logedAcc) {
         Account.logedAcc = logedAcc;
     }
-    
-    
+
+    public String getEmail() {
+        return email;
+    }
+
+    public static Account getLogedAcc() {
+        return logedAcc;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

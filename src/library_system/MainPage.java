@@ -2,22 +2,19 @@ package library_system;
 
 import java.util.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.time.LocalDate;
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
+import javax.swing.event.*;
 
 public class MainPage {
 
     JFrame frame;
     JPanel row;
-    JLabel testLabel;
+    JLabel coverLabel;
     ArrayList<JButton> buttons = new ArrayList<JButton>();
     JMenu mainPage;
     JMenu search;
@@ -50,7 +47,7 @@ public class MainPage {
         menuBar.add(history);
       
 
-        if (Account.logedAcc.getAdmin()) {
+        if (Account.getLogedAcc().getAdmin()) {
             addProduct = new JMenu("Add Product");
             menuBar.add(addProduct);
             addProduct.addMenuListener(navigate);
@@ -71,31 +68,31 @@ public class MainPage {
 
             for (int i = 0; i < 4; i++) {
                 counter += 1;
-                Image img1 = new ImageIcon("src\\coverImgs\\" + Product.allProduct.get((j * 4) + i).getCoverImg()).getImage();
-                Image test = img1.getScaledInstance(220, 320, Image.SCALE_DEFAULT);
-                JButton testButton = new JButton("Check");
-                testButton.setFocusable(false);
-                testButton.setPreferredSize(new Dimension(175, 25));
-                testButton.setBackground(Color.WHITE);
-                testButton.setBorder(BorderFactory.createEtchedBorder());
-                buttons.add(testButton);
-                testButton.addActionListener(selectProduct);
+                Image firstImg = new ImageIcon("src\\coverImgs\\" + Product.getAllProduct().get((j * 4) + i).getCoverImg()).getImage();
+                Image coverImg = firstImg.getScaledInstance(220, 320, Image.SCALE_DEFAULT);
+                JButton checkButton = new JButton("Check");
+                checkButton.setFocusable(false);
+                checkButton.setPreferredSize(new Dimension(175, 25));
+                checkButton.setBackground(Color.WHITE);
+                checkButton.setBorder(BorderFactory.createEtchedBorder());
+                buttons.add(checkButton);
+                checkButton.addActionListener(selectProduct);
 
-                testLabel = new JLabel();
-                testLabel.setIcon(new ImageIcon(test));
+                coverLabel = new JLabel();
+                coverLabel.setIcon(new ImageIcon(coverImg));
 
-                testLabel.setForeground(Color.BLACK);
-                testLabel.setBackground(Color.black);
+                coverLabel.setForeground(Color.BLACK);
+                coverLabel.setBackground(Color.black);
 
-                row.add(testLabel);
-                buttonRow.add(testButton);
+                row.add(coverLabel);
+                buttonRow.add(checkButton);
             }
 
             container.add(row);
             container.add(buttonRow);
         }
         System.out.println(counter);
-        test:
+        loop:
         while (counter != Product.getAllProduct().size()) {
             row = new JPanel();
             row.setLayout(new FlowLayout());
@@ -105,29 +102,29 @@ public class MainPage {
 
             for (int i = 0; i < 4; i++) {
                 counter += 1;
-                Image img1 = new ImageIcon("src\\coverImgs\\" + Product.allProduct.get(counter-1).getCoverImg()).getImage();
-                Image test = img1.getScaledInstance(220, 320, Image.SCALE_DEFAULT);
-                JButton testButton = new JButton("Check");
-                testButton.setFocusable(false);
-                testButton.setPreferredSize(new Dimension(175, 25));
-                testButton.setBackground(Color.WHITE);
-                testButton.setBorder(BorderFactory.createEtchedBorder());
-                buttons.add(testButton);
-                testButton.addActionListener(selectProduct);
+                Image firstImg = new ImageIcon("src\\coverImgs\\" + Product.getAllProduct().get(counter-1).getCoverImg()).getImage();
+                Image coverImg = firstImg.getScaledInstance(220, 320, Image.SCALE_DEFAULT);
+                JButton checkButton = new JButton("Check");
+                checkButton.setFocusable(false);
+                checkButton.setPreferredSize(new Dimension(175, 25));
+                checkButton.setBackground(Color.WHITE);
+                checkButton.setBorder(BorderFactory.createEtchedBorder());
+                buttons.add(checkButton);
+                checkButton.addActionListener(selectProduct);
 
-                testLabel = new JLabel();
-                testLabel.setIcon(new ImageIcon(test));
+                coverLabel = new JLabel();
+                coverLabel.setIcon(new ImageIcon(coverImg));
 
-                testLabel.setForeground(Color.BLACK);
-                testLabel.setBackground(Color.black);
+                coverLabel.setForeground(Color.BLACK);
+                coverLabel.setBackground(Color.black);
 
-                row.add(testLabel);
-                buttonRow.add(testButton);
+                row.add(coverLabel);
+                buttonRow.add(checkButton);
 
                 if (counter == Product.getAllProduct().size()) {
                     container.add(row);
                     container.add(buttonRow);
-                    break test;
+                    break loop;
                 }
             }
 
@@ -175,7 +172,7 @@ public class MainPage {
     ActionListener selectProduct = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Product.selectedProduct = Product.allProduct.get(buttons.indexOf(e.getSource()));
+            Product.selectedProduct = Product.getAllProduct().get(buttons.indexOf(e.getSource()));
             frame.dispose();
             new ProductPage();
         }

@@ -1,6 +1,5 @@
 package library_system;
 
-import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -8,7 +7,6 @@ import java.net.*;
 import javax.swing.*;
 import java.sql.*;
 import javax.imageio.ImageIO;
-import javax.swing.border.Border;
 
 class LoginPage {
 
@@ -25,7 +23,6 @@ class LoginPage {
         frame.setTitle("Library System - Login page");
         frame.setResizable(false);
         frame.setIconImage(new ImageIcon("src\\mainIcon.jpg").getImage());
-       
 
         try {
             frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg.jpg")))));
@@ -34,37 +31,36 @@ class LoginPage {
 
         loginBox = new JPanel();
         loginBox.setBounds(330, 197, 620, 326);
-        loginBox.setBackground(new Color(0, 0, 0,99));
+        loginBox.setBackground(new Color(0, 0, 0, 99));
         loginBox.setLayout(null);
-       
 
-        JLabel text1 = new JLabel("Username:");
-        text1.setBounds(177, 70, 276, 30);
-        text1.setForeground(Color.WHITE);
+        JLabel usernameText = new JLabel("Username:");
+        usernameText.setBounds(177, 70, 276, 30);
+        usernameText.setForeground(Color.WHITE);
         usernameInput = new JTextField();
         usernameInput.setBounds(177, 95, 276, 30);
         usernameInput.addKeyListener(signWithKeyBoard);
-        
-        JLabel text2 = new JLabel("Password:");
-        text2.setBounds(177, 155, 276, 30);
-        text2.setForeground(Color.WHITE);
+
+        JLabel passwordText = new JLabel("Password:");
+        passwordText.setBounds(177, 155, 276, 30);
+        passwordText.setForeground(Color.WHITE);
         passwordInput = new JPasswordField();
         passwordInput.setBounds(177, 180, 276, 30);
         passwordInput.addKeyListener(signWithKeyBoard);
 
-        JButton text3 = new JButton("Sign up");
-        text3.setBounds(155, 220, 95, 20);
-        text3.setBackground(Color.WHITE);
-        text3.setBorder(null);
-        text3.addActionListener(sign);
-        text3.setFocusable(false);
+        JButton signButton = new JButton("Sign up");
+        signButton.setBounds(155, 220, 95, 20);
+        signButton.setBackground(Color.WHITE);
+        signButton.setBorder(null);
+        signButton.addActionListener(sign);
+        signButton.setFocusable(false);
 
-        JButton button = new JButton("Login");
-        button.setBounds(197, 275, 226, 25);
-        button.addActionListener(login);
-        button.setFocusable(false);
-        button.setBackground(Color.WHITE);
-        
+        JButton loginButton = new JButton("Login");
+        loginButton.setBounds(197, 275, 226, 25);
+        loginButton.addActionListener(login);
+        loginButton.setFocusable(false);
+        loginButton.setBackground(Color.WHITE);
+
         errorMsg = new JLabel();
         errorMsg.setBounds(177, 25, 276, 30);
         errorMsg.setHorizontalAlignment(JLabel.CENTER);
@@ -73,12 +69,12 @@ class LoginPage {
 
         loginBox.add(errorMsg);
 
-        loginBox.add(text1);
-        loginBox.add(text2);
+        loginBox.add(usernameText);
+        loginBox.add(passwordText);
         loginBox.add(usernameInput);
         loginBox.add(passwordInput);
-        loginBox.add(text3);
-        loginBox.add(button);
+        loginBox.add(signButton);
+        loginBox.add(loginButton);
 
         frame.add(loginBox);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,7 +107,7 @@ class LoginPage {
             while (result.next()) {
                 checkLogin += 1;
                 if (!result.getString("userId").equals("")) {
-                    Account.logedAcc = new Account(result.getInt("userId"), username, password, result.getString("email"), result.getBoolean("admin"));
+                    Account.setLogedAcc(new Account(result.getInt("userId"), username, password, result.getString("email"), result.getBoolean("admin")));
                     frame.dispose();
                     new MainPage();
                 }
@@ -119,8 +115,8 @@ class LoginPage {
 
             if (checkLogin == 0) {
                 errorMsg.setText("Bad username or password");
-                 loginBox.setBackground(new Color(0, 0, 0,99));
-                 loginBox.repaint();
+                loginBox.setBackground(new Color(0, 0, 0, 99));
+                loginBox.repaint();
             }
 
         } catch (Exception e) {
@@ -128,8 +124,6 @@ class LoginPage {
         }
     }
 
-    
-    
     ActionListener sign = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -139,19 +133,21 @@ class LoginPage {
             }
         }
     };
-    
+
     KeyListener signWithKeyBoard = new KeyListener() {
         @Override
-        public void keyTyped(KeyEvent e) {}
+        public void keyTyped(KeyEvent e) {
+        }
 
         @Override
         public void keyPressed(KeyEvent e) {
-            if(e.getKeyCode() == 10){
+            if (e.getKeyCode() == 10) {
                 checkAccount("\"" + usernameInput.getText() + "\"", "\"" + passwordInput.getText() + "\"");
             }
         }
 
         @Override
-        public void keyReleased(KeyEvent e) {}
+        public void keyReleased(KeyEvent e) {
+        }
     };
 }
