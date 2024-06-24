@@ -3,17 +3,15 @@ package library_system;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.time.*;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.*;
 
 public class ProductPage {
-//    static boolean preview = false;
+
     JFrame frame;
     JPanel coverPanel;
     JLabel coverImg;
@@ -32,10 +30,7 @@ public class ProductPage {
         frame.setResizable(false);
         frame.setIconImage(new ImageIcon("src\\mainIcon.jpg").getImage());
 
-        try {
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg.jpg")))));
-        } catch (Exception e) {
-        }
+        frame.setContentPane(new JLabel(new ImageIcon("src\\bg.jpg")));
 
         JMenuBar menuBar = new JMenuBar();
         mainPage = new JMenu("Main Page");
@@ -155,7 +150,7 @@ public class ProductPage {
         detailsPanel.add(available);
 
         frame.setJMenuBar(menuBar);
-        if(!preview){
+        if (!preview) {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
         frame.add(coverPanel);

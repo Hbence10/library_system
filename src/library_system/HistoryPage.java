@@ -36,10 +36,7 @@ public class HistoryPage {
         frame.setResizable(false);
         frame.setIconImage(new ImageIcon("src\\mainIcon.jpg").getImage());
 
-        try {
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg.jpg")))));
-        } catch (Exception e) {
-        }
+        frame.setContentPane(new JLabel(new ImageIcon("src\\bg.jpg")));
 
         JMenuBar menuBar = new JMenuBar();
         mainPage = new JMenu("Main Page");
@@ -143,8 +140,8 @@ public class HistoryPage {
                 new MainPage();
             } else if (e.getSource() == addProduct) {
                 new AddProduct();
-            }else if(e.getSource() == quit){
-              new LoginPage();  
+            } else if (e.getSource() == quit) {
+                new LoginPage();
             }
 
             frame.dispose();

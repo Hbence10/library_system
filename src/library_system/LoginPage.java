@@ -24,10 +24,7 @@ class LoginPage {
         frame.setResizable(false);
         frame.setIconImage(new ImageIcon("src\\mainIcon.jpg").getImage());
 
-        try {
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg.jpg")))));
-        } catch (Exception e) {
-        }
+        frame.setContentPane(new JLabel(new ImageIcon("src\\bg.jpg")));
 
         loginBox = new JPanel();
         loginBox.setBounds(330, 197, 620, 326);

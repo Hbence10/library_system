@@ -32,7 +32,7 @@ export class SignPageComponent implements OnInit{
 
       let result: boolean = password === this.form.get("password")?.value
 
-      return !result ? {lowerCase : true} : null
+      return result ? null : {lowerCase : true}
     }
   }
 
@@ -46,7 +46,7 @@ export class SignPageComponent implements OnInit{
 
       let result: boolean = /[a-z]+/.test(password);
 
-      return !result ? {lowerCase : true} : null
+      return result ? null : {lowerCase : true}
     }
   }
 
@@ -60,7 +60,7 @@ export class SignPageComponent implements OnInit{
 
       let result: boolean = /[A-Z]+/.test(password);
 
-      return !result ? {upperCase : true} : null
+      return result ? null : {upperCase : true}
     }
   }
 
@@ -74,7 +74,7 @@ export class SignPageComponent implements OnInit{
 
       let result: boolean = /[0-9]+/.test(password);
 
-      return !result ? {numeric : true} : null
+      return result ?  null : {numeric : true}
     }
   }
 
@@ -97,7 +97,7 @@ export class SignPageComponent implements OnInit{
         }
      }
 
-      return !result ? {specialCharacter : true} : null
+      return result ?  null : {specialCharacter : true}
     }
   }
 
@@ -113,8 +113,8 @@ export class SignPageComponent implements OnInit{
     details.append("password", this.form.value.password);
     details.append("email", this.form.value.email);
 
-    this.http.post("http://localhost/library/sign.php", details).subscribe(res => console.log(res));
-    // this.http.post("http://localhost/library/email.php", details).subscribe(res => console.log(res));
+    this.http.post<any>("http://localhost/library/sign.php", details).subscribe(res => console.log(res));
+    this.http.post<any>("http://localhost/library/email.php", details).subscribe(res => console.log(res));
   }
 
   

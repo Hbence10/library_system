@@ -66,10 +66,7 @@ public class SearchPage {
 
         menuBar.add(quit);
 
-        try {
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg.jpg")))));
-        } catch (Exception e) {
-        }
+        frame.setContentPane(new JLabel(new ImageIcon("src\\bg.jpg")));
 
         containerPanel = new JPanel();
         containerPanel.setBounds(0, 0, 1280, 120);
@@ -171,9 +168,7 @@ public class SearchPage {
                         buttons.add(button);
                         button.addActionListener(checkProduct);
                     }
-
                 }
-
             }
 
             ArrayList<JLabel> coverImgList = new ArrayList<JLabel>();
@@ -189,10 +184,10 @@ public class SearchPage {
                 row.add(coverLabel);
                 row.repaint();
             }
-            
-            for(JButton i : buttons){
+
+            for (JButton i : buttons) {
                 i.setFocusable(false);
-                i.setPreferredSize(new Dimension(175,25));
+                i.setPreferredSize(new Dimension(175, 25));
                 i.setBackground(Color.WHITE);
                 i.setBorder(BorderFactory.createEtchedBorder());
                 buttonRow.add(i);

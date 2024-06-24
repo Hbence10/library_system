@@ -66,7 +66,7 @@ public class AddProduct {
         menuBar.add(quit);
 
         try {
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src\\bg.jpg")))));
+            frame.setContentPane(new JLabel(new ImageIcon("src\\bg.jpg")));
         } catch (Exception e) {
         }
 
@@ -197,9 +197,9 @@ public class AddProduct {
     ActionListener fileSelect = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JFileChooser chooser = new JFileChooser();
+            JFileChooser chooser = new JFileChooser("C:\\Users\\bzhal\\OneDrive\\Asztali gép\\eloadas");
 
-            int response = chooser.showOpenDialog(null); //select file to open
+            int response = chooser.showOpenDialog(null); 
 
             if (response == JFileChooser.APPROVE_OPTION) {
                 try {
@@ -209,7 +209,7 @@ public class AddProduct {
 
                     Files.copy(form, to);
                 } catch (IOException ex) {
-                    Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
+                  
                 }
 
             }
