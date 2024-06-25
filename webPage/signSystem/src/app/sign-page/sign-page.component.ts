@@ -18,7 +18,7 @@ export class SignPageComponent implements OnInit{
       username : new FormControl("", [Validators.required]),
       email : new FormControl("", [Validators.required]),
       password : new FormControl("", [Validators.required, this.checkLowerCase(), this.checkUpperCase(), this.checkNumeric(), this.checkSpecialCharacter(), Validators.minLength(6)]),
-      rePassword : new FormControl("", [Validators.required])
+      rePassword : new FormControl("", [Validators.required, this.checkRePassword()])
     })
   }
 
@@ -32,7 +32,7 @@ export class SignPageComponent implements OnInit{
 
       let result: boolean = password === this.form.get("password")?.value
 
-      return result ? null : {lowerCase : true}
+      return result ? null : {rePassword : true}
     }
   }
 
